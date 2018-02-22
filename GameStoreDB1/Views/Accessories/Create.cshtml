@@ -1,0 +1,128 @@
+﻿@model GameStoreDB1.Accessory
+@{
+    ViewBag.Title = "Create";
+}
+@{ 
+   
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Accessory</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.AccType, "AccType", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("AccType", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AccType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Discription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Discription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Discription, "", new { @class = "text-danger" })
+            </div>
+        </div>
+   
+        <div class="form-group">
+            @Html.LabelFor(model => model.Models, "System Model", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBox("SystemModels", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Models, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" >Games</label>
+            <div class="col-md-10">
+               <input class="form-control text-box single-line"id="gameInput" type="text" onkeyup="GameDisplay()" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10" id="tblGames">
+                @Html.Action("_Games");
+            </div>
+        </div>
+
+       <div class="form-group">
+            <label class="control-label col-md-2">Selected Games</label>
+            <div class="col-md-10" id="tblSelectedGames">
+            @Html.Action("_SelectedGames");
+                </div>
+        </div>
+      
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+<script type="text/javascript">
+
+    var listedGames = [];
+
+
+    function GameDisplay() {
+        
+        if ($('#gameInput').val().length > 2) {
+            
+
+            $.ajax({
+                type: "POST"
+                , url: "Filter"
+                , data: JSON.stringify({ filterText: $('#gameInput').val(), listed: listedGames })
+                , contentType: 'application/json;'
+                , success: function (result) {
+                    $("#tblGames").html(result);
+                }
+            });
+        }
+    }
+    function selectGame(x) {
+        listedGames.push($(x).val());
+        $.ajax({
+            type: "POST"
+            , url: "Selecting"
+            , data: JSON.stringify({ filterId: $(x).val(), listed: listedGames})
+            , contentType: 'application/json;'
+            , success: function (result) {
+                $("#tblSelectedGames").html(result);
+            }
+        });
+        
+        $.ajax({
+            type: "POST"
+            , url: "Filter"
+            , data: JSON.stringify({ filterText: $('#gameInput').val(), listed: listedGames })
+            , contentType: 'application/json;'
+            , success: function (result) {
+                $("#tblGames").html(result);
+            }
+        });
+       
+    }
+
+</script>

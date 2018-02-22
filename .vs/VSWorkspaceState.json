@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\GameStoreDB1",
+    "\\GameStoreDB1\\Controllers",
+    "\\GameStoreDB1\\Views",
+    "\\GameStoreDB1\\Views\\Games",
+    "\\GameStoreDB1\\Views\\Guest",
+    "\\packages\\Respond.1.4.2",
+    "\\packages\\Respond.1.4.2\\content",
+    "\\packages\\Respond.1.4.2\\content\\Scripts",
+    "\\packages\\System.Diagnostics.DiagnosticSource.4.4.1",
+    "\\packages\\System.Diagnostics.DiagnosticSource.4.4.1\\lib"
+  ],
+  "SelectedNode": "\\GameStoreDB1\\Views\\Guest\\Games.cshtml",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LegacyDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__RefactorLog">
+    <Key>
+      <PropertyRef Name="OperationKey" />
+    </Key>
+    <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Accessories">
+    <Key>
+      <PropertyRef Name="AccId" />
+    </Key>
+    <Property Name="AccId" Type="int" Nullable="false" />
+    <Property Name="AccType" Type="int" Nullable="false" />
+    <Property Name="Discription" Type="varchar" MaxLength="50" />
+    <Property Name="ColorId" Type="int" />
+  </EntityType>
+  <EntityType Name="AccType">
+    <Key>
+      <PropertyRef Name="AccTypeId" />
+    </Key>
+    <Property Name="AccTypeId" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Colors">
+    <Key>
+      <PropertyRef Name="ColorId" />
+    </Key>
+    <Property Name="ColorId" Type="int" Nullable="false" />
+    <Property Name="Color" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Conditions">
+    <Key>
+      <PropertyRef Name="ConditonId" />
+    </Key>
+    <Property Name="ConditonId" Type="int" Nullable="false" />
+    <Property Name="Condition" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Consoles">
+    <Key>
+      <PropertyRef Name="ConsoleId" />
+    </Key>
+    <Property Name="ConsoleId" Type="int" Nullable="false" />
+    <Property Name="ModelID" Type="int" />
+    <Property Name="SerialNumber" Type="varchar" MaxLength="50" />
+    <Property Name="Color" Type="int" />
+  </EntityType>
+  <EntityType Name="GameAccessories">
+    <Key>
+      <PropertyRef Name="AccId" />
+      <PropertyRef Name="Game" />
+    </Key>
+    <Property Name="AccId" Type="int" Nullable="false" />
+    <Property Name="Game" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Games">
+    <Key>
+      <PropertyRef Name="GameId" />
+    </Key>
+    <Property Name="GameId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="varchar" MaxLength="75" Nullable="false" />
+    <Property Name="System" Type="int" Nullable="false" />
+    <Property Name="Publisher" Type="varchar" MaxLength="50" />
+    <Property Name="DateOfRelease" Type="date" />
+  </EntityType>
+  <EntityType Name="GameSystems">
+    <Key>
+      <PropertyRef Name="SystemId" />
+    </Key>
+    <Property Name="SystemId" Type="int" Nullable="false" />
+    <Property Name="SystemName" Type="varchar" MaxLength="50" />
+    <Property Name="StartProductionYear" Type="varchar" MaxLength="50" />
+    <Property Name="EndProductionYear" Type="varchar" MaxLength="50" />
+    <Property Name="Company" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ItemAccessories">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="AccId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ItemConsoles">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="ConsoleId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ItemGames">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="GameId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Items">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="int" Nullable="false" />
+    <Property Name="ConditionId" Type="int" />
+    <Property Name="TypeId" Type="int" />
+  </EntityType>
+  <EntityType Name="Models">
+    <Key>
+      <PropertyRef Name="ModelId" />
+    </Key>
+    <Property Name="ModelId" Type="int" Nullable="false" />
+    <Property Name="ModelName" Type="varchar" MaxLength="50" />
+    <Property Name="SystemId" Type="int" />
+  </EntityType>
+  <EntityType Name="SystemAccessories">
+    <Key>
+      <PropertyRef Name="AccId" />
+      <PropertyRef Name="SystemModel" />
+    </Key>
+    <Property Name="AccId" Type="int" Nullable="false" />
+    <Property Name="SystemModel" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Type">
+    <Key>
+      <PropertyRef Name="TypeId" />
+    </Key>
+    <Property Name="TypeId" Type="int" Nullable="false" />
+    <Property Name="ItemType" Type="varchar" MaxLength="11" />
+  </EntityType>
+  <Association Name="FK__Accessori__AccTy__68487DD7">
+    <End Role="AccType" Type="Self.AccType" Multiplicity="1" />
+    <End Role="Accessories" Type="Self.Accessories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AccType">
+        <PropertyRef Name="AccTypeId" />
+      </Principal>
+      <Dependent Role="Accessories">
+        <PropertyRef Name="AccType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Accessori__Color__6B24EA82">
+    <End Role="Colors" Type="Self.Colors" Multiplicity="0..1" />
+    <End Role="Accessories" Type="Self.Accessories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Colors">
+        <PropertyRef Name="ColorId" />
+      </Principal>
+      <Dependent Role="Accessories">
+        <PropertyRef Name="ColorId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Consoles__Color__619B8048">
+    <End Role="Colors" Type="Self.Colors" Multiplicity="0..1" />
+    <End Role="Consoles" Type="Self.Consoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Colors">
+        <PropertyRef Name="ColorId" />
+      </Principal>
+      <Dependent Role="Consoles">
+        <PropertyRef Name="Color" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Consoles__ModelI__60A75C0F">
+    <End Role="Models" Type="Self.Models" Multiplicity="0..1" />
+    <End Role="Consoles" Type="Self.Consoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Models">
+        <PropertyRef Name="ModelId" />
+      </Principal>
+      <Dependent Role="Consoles">
+        <PropertyRef Name="ModelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GameAcces__AccId__6477ECF3">
+    <End Role="Accessories" Type="Self.Accessories" Multiplicity="1" />
+    <End Role="GameAccessories" Type="Self.GameAccessories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accessories">
+        <PropertyRef Name="AccId" />
+      </Principal>
+      <Dependent Role="GameAccessories">
+        <PropertyRef Name="AccId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__GameAccess__Game__656C112C">
+    <End Role="Games" Type="Self.Games" Multiplicity="1" />
+    <End Role="GameAccessories" Type="Self.GameAccessories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Games">
+        <PropertyRef Name="GameId" />
+      </Principal>
+      <Dependent Role="GameAccessories">
+        <PropertyRef Name="Game" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Games__System__628FA481">
+    <End Role="GameSystems" Type="Self.GameSystems" Multiplicity="1" />
+    <End Role="Games" Type="Self.Games" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GameSystems">
+        <PropertyRef Name="SystemId" />
+      </Principal>
+      <Dependent Role="Games">
+        <PropertyRef Name="System" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ItemAcces__AccId__76969D2E">
+    <End Role="Accessories" Type="Self.Accessories" Multiplicity="1" />
+    <End Role="ItemAccessories" Type="Self.ItemAccessories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accessories">
+        <PropertyRef Name="AccId" />
+      </Principal>
+      <Dependent Role="ItemAccessories">
+        <PropertyRef Name="AccId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ItemAcces__ItemI__75A278F5">
+    <End Role="Items" Type="Self.Items" Multiplicity="1" />
+    <End Role="ItemAccessories" Type="Self.ItemAccessories" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ItemId" />
+      </Principal>
+      <Dependent Role="ItemAccessories">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ItemConso__Conso__72C60C4A">
+    <End Role="Consoles" Type="Self.Consoles" Multiplicity="1" />
+    <End Role="ItemConsoles" Type="Self.ItemConsoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Consoles">
+        <PropertyRef Name="ConsoleId" />
+      </Principal>
+      <Dependent Role="ItemConsoles">
+        <PropertyRef Name="ConsoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ItemConso__ItemI__71D1E811">
+    <End Role="Items" Type="Self.Items" Multiplicity="1" />
+    <End Role="ItemConsoles" Type="Self.ItemConsoles" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ItemId" />
+      </Principal>
+      <Dependent Role="ItemConsoles">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ItemGames__GameI__6EF57B66">
+    <End Role="Games" Type="Self.Games" Multiplicity="1" />
+    <End Role="ItemGames" Type="Self.ItemGames" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Games">
+        <PropertyRef Name="GameId" />
+      </Principal>
+      <Dependent Role="ItemGames">
+        <PropertyRef Name="GameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__ItemGames__ItemI__6E01572D">
+    <End Role="Items" Type="Self.Items" Multiplicity="1" />
+    <End Role="ItemGames" Type="Self.ItemGames" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Items">
+        <PropertyRef Name="ItemId" />
+      </Principal>
+      <Dependent Role="ItemGames">
+        <PropertyRef Name="ItemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Items__Condition__5EBF139D">
+    <End Role="Conditions" Type="Self.Conditions" Multiplicity="0..1" />
+    <End Role="Items" Type="Self.Items" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Conditions">
+        <PropertyRef Name="ConditonId" />
+      </Principal>
+      <Dependent Role="Items">
+        <PropertyRef Name="ConditionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Items__TypeId__5FB337D6">
+    <End Role="Type" Type="Self.Type" Multiplicity="0..1" />
+    <End Role="Items" Type="Self.Items" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Type">
+        <PropertyRef Name="TypeId" />
+      </Principal>
+      <Dependent Role="Items">
+        <PropertyRef Name="TypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Models__SystemId__6383C8BA">
+    <End Role="GameSystems" Type="Self.GameSystems" Multiplicity="0..1" />
+    <End Role="Models" Type="Self.Models" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GameSystems">
+        <PropertyRef Name="SystemId" />
+      </Principal>
+      <Dependent Role="Models">
+        <PropertyRef Name="SystemId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SystemAcc__AccId__66603565">
+    <End Role="Accessories" Type="Self.Accessories" Multiplicity="1" />
+    <End Role="SystemAccessories" Type="Self.SystemAccessories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accessories">
+        <PropertyRef Name="AccId" />
+      </Principal>
+      <Dependent Role="SystemAccessories">
+        <PropertyRef Name="AccId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__SystemAcc__Syste__6754599E">
+    <End Role="Models" Type="Self.Models" Multiplicity="1" />
+    <End Role="SystemAccessories" Type="Self.SystemAccessories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Models">
+        <PropertyRef Name="ModelId" />
+      </Principal>
+      <Dependent Role="SystemAccessories">
+        <PropertyRef Name="SystemModel" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LegacyDbModelStoreContainer">
+    <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Accessories" EntityType="Self.Accessories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AccType" EntityType="Self.AccType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Colors" EntityType="Self.Colors" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Conditions" EntityType="Self.Conditions" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Consoles" EntityType="Self.Consoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GameAccessories" EntityType="Self.GameAccessories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Games" EntityType="Self.Games" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="GameSystems" EntityType="Self.GameSystems" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ItemAccessories" EntityType="Self.ItemAccessories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ItemConsoles" EntityType="Self.ItemConsoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ItemGames" EntityType="Self.ItemGames" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Models" EntityType="Self.Models" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SystemAccessories" EntityType="Self.SystemAccessories" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Accessori__AccTy__68487DD7" Association="Self.FK__Accessori__AccTy__68487DD7">
+      <End Role="AccType" EntitySet="AccType" />
+      <End Role="Accessories" EntitySet="Accessories" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Accessori__Color__6B24EA82" Association="Self.FK__Accessori__Color__6B24EA82">
+      <End Role="Colors" EntitySet="Colors" />
+      <End Role="Accessories" EntitySet="Accessories" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Consoles__Color__619B8048" Association="Self.FK__Consoles__Color__619B8048">
+      <End Role="Colors" EntitySet="Colors" />
+      <End Role="Consoles" EntitySet="Consoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Consoles__ModelI__60A75C0F" Association="Self.FK__Consoles__ModelI__60A75C0F">
+      <End Role="Models" EntitySet="Models" />
+      <End Role="Consoles" EntitySet="Consoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GameAcces__AccId__6477ECF3" Association="Self.FK__GameAcces__AccId__6477ECF3">
+      <End Role="Accessories" EntitySet="Accessories" />
+      <End Role="GameAccessories" EntitySet="GameAccessories" />
+    </AssociationSet>
+    <AssociationSet Name="FK__GameAccess__Game__656C112C" Association="Self.FK__GameAccess__Game__656C112C">
+      <End Role="Games" EntitySet="Games" />
+      <End Role="GameAccessories" EntitySet="GameAccessories" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Games__System__628FA481" Association="Self.FK__Games__System__628FA481">
+      <End Role="GameSystems" EntitySet="GameSystems" />
+      <End Role="Games" EntitySet="Games" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ItemAcces__AccId__76969D2E" Association="Self.FK__ItemAcces__AccId__76969D2E">
+      <End Role="Accessories" EntitySet="Accessories" />
+      <End Role="ItemAccessories" EntitySet="ItemAccessories" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ItemAcces__ItemI__75A278F5" Association="Self.FK__ItemAcces__ItemI__75A278F5">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="ItemAccessories" EntitySet="ItemAccessories" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ItemConso__Conso__72C60C4A" Association="Self.FK__ItemConso__Conso__72C60C4A">
+      <End Role="Consoles" EntitySet="Consoles" />
+      <End Role="ItemConsoles" EntitySet="ItemConsoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ItemConso__ItemI__71D1E811" Association="Self.FK__ItemConso__ItemI__71D1E811">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="ItemConsoles" EntitySet="ItemConsoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ItemGames__GameI__6EF57B66" Association="Self.FK__ItemGames__GameI__6EF57B66">
+      <End Role="Games" EntitySet="Games" />
+      <End Role="ItemGames" EntitySet="ItemGames" />
+    </AssociationSet>
+    <AssociationSet Name="FK__ItemGames__ItemI__6E01572D" Association="Self.FK__ItemGames__ItemI__6E01572D">
+      <End Role="Items" EntitySet="Items" />
+      <End Role="ItemGames" EntitySet="ItemGames" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Items__Condition__5EBF139D" Association="Self.FK__Items__Condition__5EBF139D">
+      <End Role="Conditions" EntitySet="Conditions" />
+      <End Role="Items" EntitySet="Items" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Items__TypeId__5FB337D6" Association="Self.FK__Items__TypeId__5FB337D6">
+      <End Role="Type" EntitySet="Type" />
+      <End Role="Items" EntitySet="Items" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Models__SystemId__6383C8BA" Association="Self.FK__Models__SystemId__6383C8BA">
+      <End Role="GameSystems" EntitySet="GameSystems" />
+      <End Role="Models" EntitySet="Models" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SystemAcc__AccId__66603565" Association="Self.FK__SystemAcc__AccId__66603565">
+      <End Role="Accessories" EntitySet="Accessories" />
+      <End Role="SystemAccessories" EntitySet="SystemAccessories" />
+    </AssociationSet>
+    <AssociationSet Name="FK__SystemAcc__Syste__6754599E" Association="Self.FK__SystemAcc__Syste__6754599E">
+      <End Role="Models" EntitySet="Models" />
+      <End Role="SystemAccessories" EntitySet="SystemAccessories" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

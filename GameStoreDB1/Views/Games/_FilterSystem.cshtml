@@ -1,0 +1,17 @@
+﻿@model IEnumerable<GameStoreDB1.GameSystem>
+
+@{
+    ViewBag.Title = "_FilterSystems";
+}
+<div>
+@foreach (var item in Model)
+{
+    <div>
+        <input value="@item.SystemId" type="checkbox" checked="true" onclick="SelectSystem(this)"/> @item.SystemName
+    </div>
+}
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

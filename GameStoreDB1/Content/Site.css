@@ -1,0 +1,93 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+.btn-main {
+    color: #F7F7F7;
+    background-color: #1434D1;
+    border-color: #260E9E;
+    min-width:131px;
+}
+
+    .btn-main:hover,
+    .btn-main:focus,
+    .btn-main:active,
+    .btn-main.active,
+    .open .dropdown-toggle.btn-main {
+        color: #F7F7F7;
+        background-color: #0016A6;
+        border-color: #260E9E;
+    }
+
+    .btn-main:active,
+    .btn-main.active,
+    .open .dropdown-toggle.btn-main {
+        background-image: none;
+    }
+
+    .btn-main.disabled,
+    .btn-main[disabled],
+    fieldset[disabled] .btn-main,
+    .btn-main.disabled:hover,
+    .btn-main[disabled]:hover,
+    fieldset[disabled] .btn-main:hover,
+    .btn-main.disabled:focus,
+    .btn-main[disabled]:focus,
+    fieldset[disabled] .btn-main:focus,
+    .btn-main.disabled:active,
+    .btn-main[disabled]:active,
+    fieldset[disabled] .btn-main:active,
+    .btn-main.disabled.active,
+    .btn-main[disabled].active,
+    fieldset[disabled] .btn-main.active {
+        background-color: #1434D1;
+        border-color: #260E9E;
+    }
+
+    .btn-main .badge {
+        color: #1434D1;
+        background-color: #F7F7F7;
+    }
+.bg-main {
+    background-color: #9bd643;
+    /*min-height: 300px;*/
+    position: relative;
+}
+
+.body-content {
+    min-width: 400px;
+    
+}
+.sides {
+    border-color: #1434D1;
+    border-width: 1px;
+    border-style: solid;
+    padding:3px;
+}
+    .sides button {
+        background-color: #9bd643;
+    }
+#tblGamesG .table {
+    border-color: #1434D1;
+ 
+}

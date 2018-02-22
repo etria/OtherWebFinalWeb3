@@ -1,0 +1,32 @@
+﻿@model IEnumerable<GameStoreDB1.Accessory>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Discription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccType1.Name)
+        </th>
+  
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Discription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccType1.Name)
+            </td>
+           
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.AccId }) |
+                @Html.ActionLink("Add Item To Cart", "AddItem", new { id = item.AccId })
+            </td>
+        </tr>
+    }
+
+</table>

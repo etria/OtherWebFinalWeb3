@@ -1,0 +1,76 @@
+﻿@model IEnumerable<GameStoreDB1.Game>
+@{
+    ViewBag.Title = "Game";
+}
+
+<h2>Game</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>        
+        <th>
+            @Html.DisplayNameFor(model => model.GameSystem.SystemName)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameSystem.SystemName)
+            </td>
+            <td>
+                @Html.ActionLink("Add to List", "Game", new {id = item.GameId, ids = ViewBag.Ids })
+            </td>
+        </tr>
+    }
+    
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GameSystem.SystemName)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameSystem.SystemName)
+            </td>
+            <td>
+                @Html.ActionLink("Remove from List", "GameAddItem", new { id = item.GameId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>
+    @Html.ActionLink("Create New Game", "Create", "Games")
+</p>
+
+<div>
+    @Html.ActionLink("Choose a differnt Type of Item", "Choose")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

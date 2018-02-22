@@ -1,0 +1,42 @@
+﻿@model GameStoreDB1.Console
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Console</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SerialNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SerialNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Color1.Color1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Color1.Color1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Model.ModelName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Model.ModelName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ConsoleId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

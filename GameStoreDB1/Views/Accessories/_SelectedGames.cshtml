@@ -1,0 +1,44 @@
+﻿@model IEnumerable<GameStoreDB1.Game>
+
+@{
+    ViewBag.Title = "_SelectedGames";
+}
+<script type="text/javascript">
+
+</script>
+<input type="hidden" id="Listed" name="Listed" value=@ViewBag.Listed />
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.GameSystem.SystemName)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.GameSystem.SystemName)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

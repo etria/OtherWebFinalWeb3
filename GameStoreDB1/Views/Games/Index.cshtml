@@ -1,0 +1,99 @@
+﻿@model IEnumerable<GameStoreDB1.Game>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        <label class="control-label col-md-2">Games</label>
+        <div class="col-md-10">
+            <input class="form-control text-box single-line" id="gameInput" type="text" onkeyup="GameDisplay()" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <input class="form-control btn btn-default" id="searchFilter" value="Filter" onclick="FilterSystems()" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10" id="tblFilters">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10" id="tblGames">
+            @Html.Action("_Games")
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Home", "Index", "Home")
+</div>
+<div>
+    @Html.ActionLink("View Accessories", "Index", "Accessories")<br />
+</div>
+
+
+<div>
+    @Html.ActionLink("View Consoles", "Index", "Consoles")<br />
+</div>
+
+<script type="text/javascript">
+
+    var selectedSystems = [];
+
+    function SelectSystem(x) {
+        var unChecked = false;
+        if (selectedSystems.length > 0) {
+            for (var i = 0; i < selectedSystems.length; i++) {
+                if (selectedSystems[i] == x.value) {
+                    unChecked = true;
+                    selectedSystems.splice(i, 1);
+                }
+
+            }
+        }
+        
+        if (unChecked === false) {  
+            selectedSystems.push(x.value);
+        }
+        GameDisplay();
+    }
+    function FilterSystems() {
+        $.ajax({
+            type: "POST"
+            , url: "/Games/Systems"
+            , contentType: 'application/json;'
+            , success: function (result) {
+                $("#tblFilters").html(result);
+            }
+            
+        });
+    }
+    function GameDisplay() {
+
+        if ($('#gameInput').val().length > 2) {
+
+
+            $.ajax({
+                type: "POST"
+                , url: "/Games/Filter"
+                , data: JSON.stringify({ filterText: $('#gameInput').val(), selected: selectedSystems })
+                , contentType: 'application/json;'
+                , success: function (result) {
+                    $("#tblGames").html(result);
+                }
+            });
+        }
+    }
+</script>

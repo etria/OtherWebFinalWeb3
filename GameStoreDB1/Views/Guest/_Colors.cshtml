@@ -1,0 +1,10 @@
+﻿@model IEnumerable<GameStoreDB1.Color>
+    
+<div>
+    @foreach (var item in Model)
+    {
+        <div>
+            <input value="@item.ColorId" type="checkbox" checked="true" onclick="SelectSystem(this)" /> @item.Color1
+        </div>
+    }
+</div>

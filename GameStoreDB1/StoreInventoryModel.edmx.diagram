@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="82f27282f6df4458a4b3dc5900c472a7" Name="Diagram1">
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.C__RefactorLog" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.Accessory" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.AccType" Width="1.5" PointX="1.5" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.Color" Width="1.5" PointX="9" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.Condition" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.Console" Width="1.5" PointX="11.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.Game" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.GameSystem" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.Item" Width="1.5" PointX="8.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.Model" Width="1.5" PointX="6" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GameStoreLegacy_dbModel.Type" Width="1.5" PointX="6" PointY="7.125" IsExpanded="true" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.FK__Accessori__AccTy__6477ECF3" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.FK__Consoles__Color__66603565" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.FK__Items__Condition__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.FK__Consoles__ModelI__656C112C" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.FK__Games__System__693CA210" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.FK__Models__SystemId__71D1E811" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.FK__Items__TypeId__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.GameAccessories" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.ItemAccessories" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.ItemConsoles" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.ItemGames" ManuallyRouted="false" />
+        <AssociationConnector Association="GameStoreLegacy_dbModel.SystemAccessories" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

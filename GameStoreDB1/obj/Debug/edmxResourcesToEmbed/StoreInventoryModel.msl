@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GameStoreLegacy_dbModelStoreContainer" CdmEntityContainer="GameStoreLegacy_dbEntities">
+    <EntitySetMapping Name="C__RefactorLog">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.C__RefactorLog">
+        <MappingFragment StoreEntitySet="__RefactorLog">
+          <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Accessories">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.Accessory">
+        <MappingFragment StoreEntitySet="Accessories">
+          <ScalarProperty Name="AccId" ColumnName="AccId" />
+          <ScalarProperty Name="AccType" ColumnName="AccType" />
+          <ScalarProperty Name="Discription" ColumnName="Discription" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccTypes">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.AccType">
+        <MappingFragment StoreEntitySet="AccType">
+          <ScalarProperty Name="AccTypeId" ColumnName="AccTypeId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Colors">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.Color">
+        <MappingFragment StoreEntitySet="Colors">
+          <ScalarProperty Name="ColorId" ColumnName="ColorId" />
+          <ScalarProperty Name="Color1" ColumnName="Color" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Conditions">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.Condition">
+        <MappingFragment StoreEntitySet="Conditions">
+          <ScalarProperty Name="ConditonId" ColumnName="ConditonId" />
+          <ScalarProperty Name="Condition1" ColumnName="Condition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Consoles">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.Console">
+        <MappingFragment StoreEntitySet="Consoles">
+          <ScalarProperty Name="ConsoleId" ColumnName="ConsoleId" />
+          <ScalarProperty Name="ModelID" ColumnName="ModelID" />
+          <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Games">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.Game">
+        <MappingFragment StoreEntitySet="Games">
+          <ScalarProperty Name="GameId" ColumnName="GameId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="System" ColumnName="System" />
+          <ScalarProperty Name="Publisher" ColumnName="Publisher" />
+          <ScalarProperty Name="DateOfRelease" ColumnName="DateOfRelease" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GameSystems">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.GameSystem">
+        <MappingFragment StoreEntitySet="GameSystems">
+          <ScalarProperty Name="SystemId" ColumnName="SystemId" />
+          <ScalarProperty Name="SystemName" ColumnName="SystemName" />
+          <ScalarProperty Name="StartProductionYear" ColumnName="StartProductionYear" />
+          <ScalarProperty Name="EndProductionYear" ColumnName="EndProductionYear" />
+          <ScalarProperty Name="Company" ColumnName="Company" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Items">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.Item">
+        <MappingFragment StoreEntitySet="Items">
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="ConditionId" ColumnName="ConditionId" />
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Models">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.Model">
+        <MappingFragment StoreEntitySet="Models">
+          <ScalarProperty Name="ModelId" ColumnName="ModelId" />
+          <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+          <ScalarProperty Name="SystemId" ColumnName="SystemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Types">
+      <EntityTypeMapping TypeName="GameStoreLegacy_dbModel.Type">
+        <MappingFragment StoreEntitySet="Type">
+          <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+          <ScalarProperty Name="ItemType" ColumnName="ItemType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="GameAccessories" TypeName="GameStoreLegacy_dbModel.GameAccessories" StoreEntitySet="GameAccessories">
+      <EndProperty Name="Accessories">
+        <ScalarProperty Name="AccId" ColumnName="AccId" />
+      </EndProperty>
+      <EndProperty Name="Games">
+        <ScalarProperty Name="GameId" ColumnName="Game" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ItemAccessories" TypeName="GameStoreLegacy_dbModel.ItemAccessories" StoreEntitySet="ItemAccessories">
+      <EndProperty Name="Accessories">
+        <ScalarProperty Name="AccId" ColumnName="AccId" />
+      </EndProperty>
+      <EndProperty Name="Items">
+        <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ItemConsoles" TypeName="GameStoreLegacy_dbModel.ItemConsoles" StoreEntitySet="ItemConsoles">
+      <EndProperty Name="Consoles">
+        <ScalarProperty Name="ConsoleId" ColumnName="ConsoleId" />
+      </EndProperty>
+      <EndProperty Name="Items">
+        <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ItemGames" TypeName="GameStoreLegacy_dbModel.ItemGames" StoreEntitySet="ItemGames">
+      <EndProperty Name="Games">
+        <ScalarProperty Name="GameId" ColumnName="GameId" />
+      </EndProperty>
+      <EndProperty Name="Items">
+        <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SystemAccessories" TypeName="GameStoreLegacy_dbModel.SystemAccessories" StoreEntitySet="SystemAccessories">
+      <EndProperty Name="Accessories">
+        <ScalarProperty Name="AccId" ColumnName="AccId" />
+      </EndProperty>
+      <EndProperty Name="Models">
+        <ScalarProperty Name="ModelId" ColumnName="SystemModel" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

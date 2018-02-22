@@ -1,0 +1,62 @@
+﻿@model IEnumerable<GameStoreDB1.Console>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SerialNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Color1.Color1)
+        </th>
+        <td>
+            @Html.DisplayNameFor(model => model.Model.GameSystem.SystemName)
+        </td>
+        <th>
+            @Html.DisplayNameFor(model => model.Model.ModelName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.SerialNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Color1.Color1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Model.GameSystem.SystemName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Model.ModelName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ConsoleId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ConsoleId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ConsoleId })|
+            
+        </td>
+    </tr>
+}
+
+</table>
+
+<div>
+    @Html.ActionLink("Home", "Index", "Home")
+</div>
+<div>
+    @Html.ActionLink("View Accessories", "Index", "Accessories")<br />
+</div>
+<div>
+    @Html.ActionLink("View Games", "Index", "Games")<br />
+</div>

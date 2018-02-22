@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="GameStoreDB1.Models.ItemService" CodeBehind="ItemService.svc.cs" %>
