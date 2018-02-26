@@ -73,5 +73,17 @@ namespace GameStoreDB1.Controllers
             var colors = db.Colors;
             return PartialView("_Colors", colors);
         }
+        [HttpPost]
+        public ActionResult ShowModel()
+        {
+            var models = db.Models.Include(m=>m.GameSystem);
+            return PartialView("_Models", models);
+        }
+        [HttpPost]
+        public ActionResult Systems()
+        {
+            var filters = db.GameSystems;
+            return PartialView("_SystemCheck", filters);
+        }
     }
 }

@@ -14,22 +14,105 @@
                 </div>
             </div>
             <div class="row sides">
-                <h5>Systems </h5><span class="glyphicon glyphicon-menu-down" style="float:right;"></span>
+                <div class="btn-block" onclick="ShowSystems()">
+                    <h5>Systems </h5><span id="system-icon" class="glyphicon glyphicon-menu-down" style="float:right;"></span>
+                </div>
                 <div id="systems" class="col-12">
 
                 </div>
             </div>
-        </div>
-        <div class="col-sm-8 col-md-9 col-lg-10">
-            <h2>Accessories</h2>
-            <div class="row">
-                <div class="col-10-offset-1" id="tblAccessoriesG">
-                    @Html.Action("_Accessories")
+            <div class="row sides">
+                <div class="btn-block" onclick="ShowModels()">
+                    <h5>Models </h5><span class="glyphicon glyphicon-menu-down" style="float:right;"></span>
+              
+                </div>
+                <div id="modelChk" class="col-12">
+
+                </div>
+            </div>
+            <div class="row sides">
+                <div class="btn-block" onclick="ShowColor()"><h5>Color </h5><span class="glyphicon glyphicon-menu-down" style="float:right;"></span></div>
+                <div id="colorChk" class="col-12">
                 </div>
             </div>
         </div>
-    </div>
+            <div class="col-sm-8 col-md-9 col-lg-10">
+                <h2>Accessories</h2>
+                <div class="row">
+                    <div class="col-10-offset-1" id="tblAccessoriesG">
+                        @Html.Action("_Accessories")
+                    </div>
+                </div>
+            </div>
+        </div>
 }
 <script type="text/javascript">
+    var uncheckedSystems = [];
+
+    function SelectSystem(x) {
 
 
+        if (uncheckedSystems.length > 0) {
+            for (var i = 0; i < uncheckedSystems.length; i++) {
+                if (uncheckedSystems[i] == x.value) {
+
+                    uncheckedSystems.splice(i, 1);
+
+                }
+
+            }
+        }
+        console.log(uncheckedSystems);
+
+        if (!$(x).prop('checked')) {
+
+            uncheckedSystems.push(x.value);
+
+        }
+
+        //show Accessories function
+    }
+    function ShowSystems() {
+        if ($('#system-icon').hasClass("glyphicon-menu-down")) {
+            $.ajax({
+                type: "POST"
+                , url: "Systems"
+                , contentType: 'application/json;'
+                , data: JSON.stringify({ selected: uncheckedSystems })
+                , success: function (result) {
+                    $("#systems").html(result);
+                }
+
+            });
+            $('#system-icon').removeClass("glyphicon-menu-down");
+            $('#system-icon').addClass("glyphicon-menu-up");
+        }
+        else if ($('#system-icon').hasClass("glyphicon-menu-up")) {
+            $("#systems").html("");
+            $('#system-icon').removeClass("glyphicon-menu-up");
+            $('#system-icon').addClass("glyphicon-menu-down");
+        }
+    }
+    function ShowModels() {
+        $.ajax({
+            type: "POST"
+            , url: "Models"
+            , contentType: 'application/json;'
+            , success: function (result) {
+                $("#modelChk").html(result);
+            }
+
+        });
+    }
+    function ShowColor() {
+        $.ajax({
+            type: "POST"
+            , url: "ShowColor"
+            , contentType: 'application/json;'
+            , success: function (result) {
+                $("#colorChk").html(result);
+            }
+        });
+
+    }
+    </script>

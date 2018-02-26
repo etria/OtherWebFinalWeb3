@@ -8,9 +8,11 @@
     <div class="col-sm-4 col-md-3 col-lg-2 bg-main" style="padding-top:4%; padding-bottom:12%;">
         <h4>Search Filters</h4>
 
-        <div class="row sides" id="systems">
-            <h5>Systems </h5><span class="glyphicon glyphicon-menu-down" style="float:right;"></span>
-            <div id="systemsChk" class="col-12">
+        <div class="row sides">
+            <div class="btn-block" onclick="ShowSystems()">
+                <h5>Systems </h5><span id="system-icon" class="glyphicon glyphicon-menu-down" style="float:right;"></span>
+            </div>
+            <div id="systems" class="col-12">
 
             </div>
         </div>
@@ -38,6 +40,53 @@
 }
 
 <script type="text/javascript">
+    var uncheckedSystems = [];
+
+    function SelectSystem(x) {
+
+
+        if (uncheckedSystems.length > 0) {
+            for (var i = 0; i < uncheckedSystems.length; i++) {
+                if (uncheckedSystems[i] == x.value) {
+
+                    uncheckedSystems.splice(i, 1);
+
+                }
+
+            }
+        }
+        console.log(uncheckedSystems);
+
+        if (!$(x).prop('checked')) {
+
+            uncheckedSystems.push(x.value);
+
+        }
+
+        //show consoles function
+    }
+    function ShowSystems() {
+        if ($('#system-icon').hasClass("glyphicon-menu-down")) {
+            $.ajax({
+                type: "POST"
+                , url: "Systems"
+                , contentType: 'application/json;'
+                , data: JSON.stringify({ selected: uncheckedSystems })
+                , success: function (result) {
+                    $("#systems").html(result);
+                }
+
+            });
+            $('#system-icon').removeClass("glyphicon-menu-down");
+            $('#system-icon').addClass("glyphicon-menu-up");
+        }
+        else if ($('#system-icon').hasClass("glyphicon-menu-up")) {
+            $("#systems").html("");
+            $('#system-icon').removeClass("glyphicon-menu-up");
+            $('#system-icon').addClass("glyphicon-menu-down");
+        }
+    }
+
     function ShowColor() {
          $.ajax({
                 type: "POST"

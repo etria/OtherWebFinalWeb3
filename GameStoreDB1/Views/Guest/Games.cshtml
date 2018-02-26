@@ -14,12 +14,13 @@
                 </div>
             </div>
             <div class="row sides">
-                <h5>Systems </h5><span class="glyphicon glyphicon-menu-down" style="float:right;"></span>
-                <div id="systems" class="col-12">
+                 <div class="btn-block" onclick="ShowSystems()">
+                    <h5>Systems </h5><span id="system-icon" class="glyphicon glyphicon-menu-down" style="float:right;"></span></div>
+                    <div id="systems" class="col-12">
 
+                    </div>
                 </div>
             </div>
-        </div>
         <div class="col-sm-8 col-md-9 col-lg-10">
             <h2>Games</h2>
             <div class="row">
@@ -32,35 +33,51 @@
 }
 <script type="text/javascript">
 
-    var selectedSystems = [];
+    var uncheckedSystems = [];
 
     function SelectSystem(x) {
-        var unChecked = false;
-        if (selectedSystems.length > 0) {
-            for (var i = 0; i < selectedSystems.length; i++) {
-                if (selectedSystems[i] == x.value) {
-                    unChecked = true;
-                    selectedSystems.splice(i, 1);
+        
+        
+        if (uncheckedSystems.length > 0) {
+            for (var i = 0; i < uncheckedSystems.length; i++) {
+                if (uncheckedSystems[i] == x.value) {
+
+                    uncheckedSystems.splice(i, 1);
+                        
+                    }
+
                 }
+            }
+        console.log(uncheckedSystems);
+        
+        if (!$(x).prop('checked')) {
+  
+            uncheckedSystems.push(x.value);
 
             }
-        }
-
-        if (unChecked === false) {
-            selectedSystems.push(x.value);
-        }
+        
         GameDisplay();
     }
-    function FilterSystems() {
-        $.ajax({
-            type: "POST"
-            , url: "/Games/Systems"
-            , contentType: 'application/json;'
-            , success: function (result) {
-                $("#tblFilters").html(result);
-            }
+    function ShowSystems() {
+        if ($('#system-icon').hasClass("glyphicon-menu-down")) {
+            $.ajax({
+                type: "POST"
+                , url: "Systems"
+                , contentType: 'application/json;'
+                , data: JSON.stringify({ selected: uncheckedSystems })
+                , success: function (result) {
+                    $("#systems").html(result);
+                }
 
-        });
+            });
+            $('#system-icon').removeClass("glyphicon-menu-down");
+            $('#system-icon').addClass("glyphicon-menu-up");
+        }
+        else if ($('#system-icon').hasClass("glyphicon-menu-up")) {
+            $("#systems").html("");
+            $('#system-icon').removeClass("glyphicon-menu-up");
+            $('#system-icon').addClass("glyphicon-menu-down");
+        }
     }
     function GameDisplay() {
 
@@ -70,7 +87,18 @@
             $.ajax({
                 type: "POST"
                 , url: "Filter"
-                , data: JSON.stringify({ filterText: $('#gameInput').val(), selected: selectedSystems })
+                , data: JSON.stringify({ filterText: $('#gameInput').val(), selected: uncheckedSystems })
+                , contentType: 'application/json;'
+                , success: function (result) {
+                    $("#tblGamesG").html(result);
+                }
+            });
+        }
+        else {
+            $.ajax({
+                type: "POST"
+                , url: "Filter"
+                , data: JSON.stringify({ filterText: "", selected: uncheckedSystems })
                 , contentType: 'application/json;'
                 , success: function (result) {
                     $("#tblGamesG").html(result);
