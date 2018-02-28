@@ -41,14 +41,14 @@ namespace GameStoreDB1.Controllers
         }
         public ActionResult _Games()
         {
-            var games = db.Games.Include(g => g.GameSystem).Include(g=>g.Items);
+            var games = db.Games.Include(g => g.GameSystem).Include(g => g.Items);
             //var games = db.Games.Include(g => g.GameSystem).Where(g => g.GameId == null);
             return PartialView("_Games", games);
         }
         public ActionResult _Accessories()
         {
             var accessories = db.Accessories.Include(a => a.AccType1).Include(a => a.Items);
-            return PartialView("_Accessories",accessories);
+            return PartialView("_Accessories", accessories);
         }
         public ActionResult _Consoles()
         {
@@ -68,20 +68,24 @@ namespace GameStoreDB1.Controllers
             return PartialView("_Games", filteredgames.Except(selectedgames));
         }
         [HttpPost]
-        public ActionResult ShowColor()
+        public ActionResult ShowColor(int[] selected)
         {
+            ViewData["colorArray"] = selected;
             var colors = db.Colors;
             return PartialView("_Colors", colors);
         }
         [HttpPost]
-        public ActionResult ShowModel()
+        public ActionResult ShowModel(int[] selected, int[] sysSelect)
         {
+            ViewData["systemArray"] = sysSelect;
+            ViewData["modelArray"] = selected;
             var models = db.Models.Include(m=>m.GameSystem);
             return PartialView("_Models", models);
         }
         [HttpPost]
-        public ActionResult Systems()
+        public ActionResult Systems(int[] selected)
         {
+            ViewData["systemArray"] = selected;
             var filters = db.GameSystems;
             return PartialView("_SystemCheck", filters);
         }

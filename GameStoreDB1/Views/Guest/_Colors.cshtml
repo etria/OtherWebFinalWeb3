@@ -1,10 +1,34 @@
 ﻿@model IEnumerable<GameStoreDB1.Color>
+
+@{
     
+    var colorArray = ViewData["colorArray"] as int[];
+}
 <div>
     @foreach (var item in Model)
     {
+        if (colorArray != null)
+        {
+
+            if (colorArray.Contains(item.ColorId))
+            {
+                    <div>
+                        <input value="@item.ColorId" type="checkbox"  onclick="SelectColors(this)" /> @item.Color1
+                    </div>
+            }
+            else
+            {
+                    <div>
+                        <input value="@item.ColorId" type="checkbox" checked="true" onclick="SelectColors(this)" /> @item.Color1
+                    </div>
+            }
+            
+        }
+        else
+        {
         <div>
-            <input value="@item.ColorId" type="checkbox" checked="true" onclick="SelectSystem(this)" /> @item.Color1
+            <input value="@item.ColorId" type="checkbox" checked="true" onclick="SelectColors(this)" /> @item.Color1
         </div>
+        }
     }
-</div>
+    </div>

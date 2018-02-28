@@ -148,7 +148,8 @@
         $.ajax({
                 type: "POST"
                 , url: "ShowColor"
-                , contentType: 'application/json;'
+            , contentType: 'application/json;'
+            , data: JSON.stringify({ selected: uncheckedColors })
                 , success: function (result) {
                     $("#colorChk").html(result);
                 }
@@ -166,8 +167,9 @@
         if ($('#model-icon').hasClass("glyphicon-menu-down")) {
             $.ajax({
                 type: "POST"
-                , url: "ShowColor"
+                , url: "ShowModel"
                 , contentType: 'application/json;'
+                , data: JSON.stringify({ selected: uncheckedModels, sysSelect: uncheckedSystems })
                 , success: function (result) {
                     $("#modelChk").html(result);
                 }
