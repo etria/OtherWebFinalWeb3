@@ -2,16 +2,76 @@
 @model IEnumerable<GameStoreDB1.Model>
 
 @{
-    ViewBag.Title = "_FilterSystems";
+
+    var modelArray = ViewData["modelArray"] as int[];
+    var systemArray = ViewData["systemArray"] as int[];
 }
 <div>
     @foreach (var item in Model)
     {
-        <div>
-            <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectSystem(this)" /> @item.GameSystem.SystemName - @item.ModelName
-        </div>
+        if (systemArray != null)
+        {
+            if (modelArray != null)
+            {
+
+                if (modelArray.Contains(item.ModelId) || systemArray.Contains((int)item.SystemId))
+                {
+                    <div>
+                        <input value="@item.ModelId" type="checkbox" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                    </div>
+                }
+
+            }
+            else
+            {
+                if (systemArray.Contains((int)item.SystemId))
+                {
+                    <div>
+                        <input value="@item.ModelId" type="checkbox" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                    </div>
+                }
+            }
+        }
+        else
+        {
+            if (modelArray != null)
+            {
+                if (modelArray.Contains(item.ModelId))
+                {
+                    <div>
+                        <input value="@item.ModelId" type="checkbox" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                    </div>
+                }
+            }
+
+
+            else
+            {
+                <div>
+                    <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                </div>
+            }
+        }
     }
-</div>
+    </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 

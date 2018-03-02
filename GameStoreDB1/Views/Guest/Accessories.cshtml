@@ -30,11 +30,7 @@
 
                 </div>
             </div>
-            <div class="row sides" id="color">
-                <div class="btn-block" onclick="ShowColor()"><h5>Color </h5><span id="color-icon" class="glyphicon glyphicon-menu-down" style="float:right;"></span></div>
-                <div id="colorChk" class="col-12">
-                </div>
-            </div>
+            
         </div>
             <div class="col-sm-8 col-md-9 col-lg-10">
                 <h2>Accessories</h2>
@@ -47,6 +43,19 @@
         </div>
 }
 <script type="text/javascript">
+    function AccDisplay() {
+        $.ajax({
+            type: "POST"
+            , url: "AccDisplay"
+            , contentType: 'application/json;'
+            , data: JSON.stringify({ sysSelect: uncheckedSystems, modSelect: uncheckedModels })
+            , success: function (result) {
+                $("#tblAccessoriesG").html(result);
+            }
+
+        });
+    }
+
     var uncheckedSystems = [];
 
     function SelectSystem(x) {
@@ -71,34 +80,10 @@
         }
 
         //show consoles function
+        AccDisplay();
     }
 
-    var uncheckedColors = [];
-
-    function SelectColors(x) {
-
-
-        if (uncheckedColors.length > 0) {
-            for (var i = 0; i < uncheckedColors.length; i++) {
-                if (uncheckedColors[i] == x.value) {
-
-                    uncheckedColors.splice(i, 1);
-
-                }
-
-            }
-        }
-        console.log(uncheckedColors);
-
-        if (!$(x).prop('checked')) {
-
-            uncheckedColors.push(x.value);
-
-        }
-
-        //show consoles function
-    }
-
+    
     var uncheckedModels = [];
 
     function SelectModels(x) {
@@ -123,6 +108,7 @@
         }
 
         //show consoles function
+        AccDisplay();
     }
     function ShowSystems() {
         if ($('#system-icon').hasClass("glyphicon-menu-down")) {
@@ -146,31 +132,15 @@
         }
     }
 
-    function ShowColor() {
-        if ($('#color-icon').hasClass("glyphicon-menu-down")) {
-            $.ajax({
-                type: "POST"
-                , url: "ShowColor"
-                , contentType: 'application/json;'
-                , success: function (result) {
-                    $("#colorChk").html(result);
-                }
-            });
-            $('#color-icon').removeClass("glyphicon-menu-down");
-            $('#color-icon').addClass("glyphicon-menu-up");
-        }
-        else if ($('#color-icon').hasClass("glyphicon-menu-up")) {
-            $("#colorChk").html("");
-            $('#color-icon').removeClass("glyphicon-menu-up");
-            $('#color-icon').addClass("glyphicon-menu-down");
-        }
-    }
+    
+
     function ShowModels() {
         if ($('#model-icon').hasClass("glyphicon-menu-down")) {
             $.ajax({
                 type: "POST"
-                , url: "ShowColor"
+                , url: "ShowModel"
                 , contentType: 'application/json;'
+                , data: JSON.stringify({ selected: uncheckedModels, sysSelect: uncheckedSystems })
                 , success: function (result) {
                     $("#modelChk").html(result);
                 }

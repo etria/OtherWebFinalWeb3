@@ -44,6 +44,19 @@
 }
 
 <script type="text/javascript">
+
+    function ConsoleDisplay() {
+        $.ajax({
+            type: "POST"
+            , url: "ConsoleDisplay"
+            , contentType: 'application/json;'
+            , data: JSON.stringify({ sysSelect: uncheckedSystems, modSelect: uncheckedModels, colSelect: uncheckedColors })
+            , success: function (result) {
+                $("#tblConsolesG").html(result);
+            }
+
+        });
+    }
     var uncheckedSystems = [];
 
     function SelectSystem(x) {
@@ -68,6 +81,7 @@
         }
 
         //show consoles function
+        ConsoleDisplay();
     }
 
     var uncheckedColors = [];
@@ -94,6 +108,7 @@
         }
 
         //show consoles function
+        ConsoleDisplay();
     }
 
     var uncheckedModels = [];
@@ -120,6 +135,7 @@
         }
 
         //show consoles function
+        ConsoleDisplay();
     }
     function ShowSystems() {
         if ($('#system-icon').hasClass("glyphicon-menu-down")) {
@@ -148,7 +164,8 @@
         $.ajax({
                 type: "POST"
                 , url: "ShowColor"
-                , contentType: 'application/json;'
+            , contentType: 'application/json;'
+            , data: JSON.stringify({ selected: uncheckedColors })
                 , success: function (result) {
                     $("#colorChk").html(result);
                 }
@@ -166,8 +183,9 @@
         if ($('#model-icon').hasClass("glyphicon-menu-down")) {
             $.ajax({
                 type: "POST"
-                , url: "ShowColor"
+                , url: "ShowModel"
                 , contentType: 'application/json;'
+                , data: JSON.stringify({ selected: uncheckedModels, sysSelect: uncheckedSystems })
                 , success: function (result) {
                     $("#modelChk").html(result);
                 }

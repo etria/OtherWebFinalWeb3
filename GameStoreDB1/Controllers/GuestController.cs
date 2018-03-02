@@ -41,14 +41,14 @@ namespace GameStoreDB1.Controllers
         }
         public ActionResult _Games()
         {
-            var games = db.Games.Include(g => g.GameSystem).Include(g=>g.Items);
+            var games = db.Games.Include(g => g.GameSystem).Include(g => g.Items);
             //var games = db.Games.Include(g => g.GameSystem).Where(g => g.GameId == null);
             return PartialView("_Games", games);
         }
         public ActionResult _Accessories()
         {
             var accessories = db.Accessories.Include(a => a.AccType1).Include(a => a.Items);
-            return PartialView("_Accessories",accessories);
+            return PartialView("_Accessories", accessories);
         }
         public ActionResult _Consoles()
         {
@@ -68,22 +68,88 @@ namespace GameStoreDB1.Controllers
             return PartialView("_Games", filteredgames.Except(selectedgames));
         }
         [HttpPost]
-        public ActionResult ShowColor()
+        public ActionResult ShowColor(int[] selected)
         {
+            ViewData["colorArray"] = selected;
             var colors = db.Colors;
             return PartialView("_Colors", colors);
         }
         [HttpPost]
-        public ActionResult ShowModel()
+        public ActionResult ShowModel(int[] selected, int[] sysSelect)
         {
+            ViewData["systemArray"] = sysSelect;
+            ViewData["modelArray"] = selected;
             var models = db.Models.Include(m=>m.GameSystem);
             return PartialView("_Models", models);
         }
         [HttpPost]
-        public ActionResult Systems()
+        public ActionResult Systems(int[] selected)
         {
+            ViewData["systemArray"] = selected;
             var filters = db.GameSystems;
             return PartialView("_SystemCheck", filters);
         }
+        //dissplay as filters are seelcted/unselected on Console page
+        [HttpPost]
+        public ActionResult ConsoleDisplay(int[] sysSelect, int[] modSelect, int[] colSelect)
+        {
+            var selectedConsoles = db.Consoles.Include(c => c.Model.GameSystem).Where(c => c.ConsoleId == null);
+            var consoles = db.Consoles.Include(c => c.Model.GameSystem).Include(c => c.Items);
+            if(sysSelect !=null && modSelect != null && colSelect != null)
+            {
+                selectedConsoles = db.Consoles.Include(c => c.Model.GameSystem).Where(c => sysSelect.Contains((int)c.Model.SystemId)|| modSelect.Contains((int)c.ModelID)|| colSelect.Contains((int)c.Color));
+            }
+            else if(sysSelect != null && modSelect != null)
+            {
+                selectedConsoles = db.Consoles.Include(c => c.Model.GameSystem).Where(c => sysSelect.Contains((int)c.Model.SystemId) || modSelect.Contains((int)c.ModelID));
+            }
+            else if(modSelect != null && colSelect != null)
+            {
+                selectedConsoles = db.Consoles.Include(c => c.Model.GameSystem).Where(c => modSelect.Contains((int)c.ModelID) || colSelect.Contains((int)c.Color));
+            }
+            else if(sysSelect != null && colSelect != null)
+            {
+                selectedConsoles = db.Consoles.Include(c => c.Model.GameSystem).Where(c => sysSelect.Contains((int)c.Model.SystemId) || colSelect.Contains((int)c.Color));
+            }
+            else if(sysSelect != null)
+            {
+                selectedConsoles = db.Consoles.Include(c => c.Model.GameSystem).Where(c => sysSelect.Contains((int)c.Model.SystemId));
+            }
+            else if (modSelect != null)
+            {
+                selectedConsoles = db.Consoles.Include(c => c.Model.GameSystem).Where(c => modSelect.Contains((int)c.ModelID));
+            }
+            else if (colSelect != null)
+            {
+                selectedConsoles = db.Consoles.Include(c => c.Model.GameSystem).Where(c => colSelect.Contains((int)c.Color));
+            }
+                return PartialView("_Consoles", consoles.Except(selectedConsoles));
+        }
+
+        // Thanks to Mike Richards who commented on the answer here https://stackoverflow.com/questions/2539442/linq-array-property-contains-element-from-another-array. 
+        //It was the key I needed to understand the array to hashset.
+        [HttpPost]
+        public ActionResult AccDisplay(int[] sysSelect, int[] modSelect)
+        {
+            var selectedAcc = db.Accessories.Where(a=>a.AccId == null);
+            var acc = db.Accessories.Include(a => a.AccType1).Include(a => a.Items);
+       
+          if (sysSelect != null && modSelect != null)
+            {
+                selectedAcc = db.Accessories.Where(a => a.Models.Any(id => sysSelect.Contains(id.ModelId) || modSelect.Contains(id.ModelId)));
+            }
+    
+            else if (sysSelect != null)
+            {
+                selectedAcc = db.Accessories.Where(a => a.Models.Any(id => sysSelect.Contains((int)id.SystemId)));
+            }
+            else if (modSelect != null)
+            {
+                selectedAcc = db.Accessories.Where(a => a.Models.Any(id => modSelect.Contains(id.ModelId)));
+            }
+
+            return PartialView("_Accessories", acc.Except(selectedAcc));
+        }
+       
     }
 }
