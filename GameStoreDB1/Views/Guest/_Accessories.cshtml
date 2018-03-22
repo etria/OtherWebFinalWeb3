@@ -24,7 +24,7 @@
            
             <td>
                 @Html.ActionLink("Details", "Details", new { id = item.AccId }) |
-                @Html.ActionLink("Add Item To Cart", "AddItem", new { id = item.AccId })
+                <button value ="@item.AccId" onclick="AddToCart(this)">Add to Cart</button>
             </td>
         </tr>
     }

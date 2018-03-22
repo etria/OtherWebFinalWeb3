@@ -33,26 +33,26 @@
 }
 <script type="text/javascript">
 
-    var uncheckedSystems = [];
+    var checkedSystems = [];
 
     function SelectSystem(x) {
         
         
-        if (uncheckedSystems.length > 0) {
-            for (var i = 0; i < uncheckedSystems.length; i++) {
-                if (uncheckedSystems[i] == x.value) {
+        if (checkedSystems.length > 0) {
+            for (var i = 0; i < checkedSystems.length; i++) {
+                if (checkedSystems[i] == x.value) {
 
-                    uncheckedSystems.splice(i, 1);
+                    checkedSystems.splice(i, 1);
                         
                     }
 
                 }
             }
-        console.log(uncheckedSystems);
+        console.log(checkedSystems);
         
-        if (!$(x).prop('checked')) {
+        if ($(x).prop('checked')) {
   
-            uncheckedSystems.push(x.value);
+            checkedSystems.push(x.value);
 
             }
         
@@ -64,7 +64,7 @@
                 type: "POST"
                 , url: "Systems"
                 , contentType: 'application/json;'
-                , data: JSON.stringify({ selected: uncheckedSystems })
+                , data: JSON.stringify({ selected: checkedSystems })
                 , success: function (result) {
                     $("#systems").html(result);
                 }
@@ -87,7 +87,7 @@
             $.ajax({
                 type: "POST"
                 , url: "Filter"
-                , data: JSON.stringify({ filterText: $('#gameInput').val(), selected: uncheckedSystems })
+                , data: JSON.stringify({ filterText: $('#gameInput').val(), selected: checkedSystems })
                 , contentType: 'application/json;'
                 , success: function (result) {
                     $("#tblGamesG").html(result);
@@ -98,7 +98,7 @@
             $.ajax({
                 type: "POST"
                 , url: "Filter"
-                , data: JSON.stringify({ filterText: "", selected: uncheckedSystems })
+                , data: JSON.stringify({ filterText: "", selected: checkedSystems })
                 , contentType: 'application/json;'
                 , success: function (result) {
                     $("#tblGamesG").html(result);

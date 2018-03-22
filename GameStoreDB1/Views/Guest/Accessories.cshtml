@@ -48,7 +48,7 @@
             type: "POST"
             , url: "AccDisplay"
             , contentType: 'application/json;'
-            , data: JSON.stringify({ sysSelect: uncheckedSystems, modSelect: uncheckedModels })
+            , data: JSON.stringify({ sysSelect: checkedSystems, modSelect: checkedModels })
             , success: function (result) {
                 $("#tblAccessoriesG").html(result);
             }
@@ -56,26 +56,26 @@
         });
     }
 
-    var uncheckedSystems = [];
+    var checkedSystems = [];
 
     function SelectSystem(x) {
 
 
-        if (uncheckedSystems.length > 0) {
-            for (var i = 0; i < uncheckedSystems.length; i++) {
-                if (uncheckedSystems[i] == x.value) {
+        if (checkedSystems.length > 0) {
+            for (var i = 0; i < checkedSystems.length; i++) {
+                if (checkedSystems[i] == x.value) {
 
-                    uncheckedSystems.splice(i, 1);
+                    checkedSystems.splice(i, 1);
 
                 }
 
             }
         }
-        console.log(uncheckedSystems);
+        console.log(checkedSystems);
 
-        if (!$(x).prop('checked')) {
+        if ($(x).prop('checked')) {
 
-            uncheckedSystems.push(x.value);
+            checkedSystems.push(x.value);
 
         }
 
@@ -84,26 +84,26 @@
     }
 
     
-    var uncheckedModels = [];
+    var checkedModels = [];
 
     function SelectModels(x) {
 
 
-        if (uncheckedModels.length > 0) {
-            for (var i = 0; i < uncheckedModels.length; i++) {
-                if (uncheckedModels[i] == x.value) {
+        if (checkedModels.length > 0) {
+            for (var i = 0; i < checkedModels.length; i++) {
+                if (checkedModels[i] == x.value) {
 
-                    uncheckedModels.splice(i, 1);
+                    checkedModels.splice(i, 1);
 
                 }
 
             }
         }
-        console.log(uncheckedModels);
+        console.log(checkedModels);
 
-        if (!$(x).prop('checked')) {
+        if ($(x).prop('checked')) {
 
-            uncheckedModels.push(x.value);
+            checkedModels.push(x.value);
 
         }
 
@@ -116,7 +116,7 @@
                 type: "POST"
                 , url: "Systems"
                 , contentType: 'application/json;'
-                , data: JSON.stringify({ selected: uncheckedSystems })
+                , data: JSON.stringify({ selected: checkedSystems })
                 , success: function (result) {
                     $("#systems").html(result);
                 }
@@ -140,7 +140,7 @@
                 type: "POST"
                 , url: "ShowModel"
                 , contentType: 'application/json;'
-                , data: JSON.stringify({ selected: uncheckedModels, sysSelect: uncheckedSystems })
+                , data: JSON.stringify({ selected: checkedModels, sysSelect: checkedSystems })
                 , success: function (result) {
                     $("#modelChk").html(result);
                 }
@@ -153,5 +153,18 @@
             $('#model-icon').removeClass("glyphicon-menu-up");
             $('#model-icon').addClass("glyphicon-menu-down");
         }
+    }
+
+    function AddToCart(x) {
+        $.ajax({
+            type: "POST"
+            , url: "AddAccToCart"
+            , contentType: 'application/json;'
+            , data: JSON.stringify({ id: x })
+            , success: function (result) {
+                $("#cart").html(result);
+            }
+
+        });
     }
     </script>

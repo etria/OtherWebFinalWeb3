@@ -17,13 +17,13 @@
                 if (modelArray.Contains(item.ModelId) || systemArray.Contains((int)item.SystemId))
                 {
                     <div>
-                        <input value="@item.ModelId" type="checkbox" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                        <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
                     </div>
                 }
                 else
                 {
                     <div>
-                        <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                        <input value="@item.ModelId" type="checkbox"  onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
                     </div>
                 }
 
@@ -33,13 +33,13 @@
                 if (systemArray.Contains((int)item.SystemId))
                 {
                     <div>
-                        <input value="@item.ModelId" type="checkbox" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                        <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
                     </div>
                 }
                 else
                 {
                     <div>
-                        <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                        <input value="@item.ModelId" type="checkbox"  onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
                     </div>
                 }
             }
@@ -51,13 +51,13 @@
                 if (modelArray.Contains(item.ModelId))
                 {
                     <div>
-                        <input value="@item.ModelId" type="checkbox" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                        <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
                     </div>
                 }
                 else
                 {
                     <div>
-                        <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                        <input value="@item.ModelId" type="checkbox"  onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
                     </div>
                 }
             }
@@ -66,7 +66,7 @@
             else
             {
                 <div>
-                    <input value="@item.ModelId" type="checkbox" checked="true" onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
+                    <input value="@item.ModelId" type="checkbox"  onclick="SelectModels(this)" /> @item.GameSystem.SystemName - @item.ModelName
                 </div>
             }
         }

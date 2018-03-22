@@ -50,33 +50,33 @@
             type: "POST"
             , url: "ConsoleDisplay"
             , contentType: 'application/json;'
-            , data: JSON.stringify({ sysSelect: uncheckedSystems, modSelect: uncheckedModels, colSelect: uncheckedColors })
+            , data: JSON.stringify({ sysSelect: checkedSystems, modSelect: checkedModels, colSelect: checkedColors })
             , success: function (result) {
                 $("#tblConsolesG").html(result);
             }
 
         });
     }
-    var uncheckedSystems = [];
+    var checkedSystems = [];
 
     function SelectSystem(x) {
 
 
-        if (uncheckedSystems.length > 0) {
-            for (var i = 0; i < uncheckedSystems.length; i++) {
-                if (uncheckedSystems[i] == x.value) {
+        if (checkedSystems.length > 0) {
+            for (var i = 0; i < checkedSystems.length; i++) {
+                if (checkedSystems[i] == x.value) {
 
-                    uncheckedSystems.splice(i, 1);
+                    checkedSystems.splice(i, 1);
 
                 }
 
             }
         }
-        console.log(uncheckedSystems);
+        console.log(checkedSystems);
 
-        if (!$(x).prop('checked')) {
+        if ($(x).prop('checked')) {
 
-            uncheckedSystems.push(x.value);
+            checkedSystems.push(x.value);
 
         }
 
@@ -84,26 +84,26 @@
         ConsoleDisplay();
     }
 
-    var uncheckedColors = [];
+    var checkedColors = [];
 
     function SelectColors(x) {
 
 
-        if (uncheckedColors.length > 0) {
-            for (var i = 0; i < uncheckedColors.length; i++) {
-                if (uncheckedColors[i] == x.value) {
+        if (checkedColors.length > 0) {
+            for (var i = 0; i < checkedColors.length; i++) {
+                if (checkedColors[i] == x.value) {
 
-                    uncheckedColors.splice(i, 1);
+                    checkedColors.splice(i, 1);
 
                 }
 
             }
         }
-        console.log(uncheckedColors);
+        console.log(checkedColors);
 
-        if (!$(x).prop('checked')) {
+        if ($(x).prop('checked')) {
 
-            uncheckedColors.push(x.value);
+            checkedColors.push(x.value);
 
         }
 
@@ -111,26 +111,26 @@
         ConsoleDisplay();
     }
 
-    var uncheckedModels = [];
+    var checkedModels = [];
 
     function SelectModels(x) {
 
 
-        if (uncheckedModels.length > 0) {
-            for (var i = 0; i < uncheckedModels.length; i++) {
-                if (uncheckedModels[i] == x.value) {
+        if (checkedModels.length > 0) {
+            for (var i = 0; i < checkedModels.length; i++) {
+                if (checkedModels[i] == x.value) {
 
-                    uncheckedModels.splice(i, 1);
+                    checkedModels.splice(i, 1);
 
                 }
 
             }
         }
-        console.log(uncheckedModels);
+        console.log(checkedModels);
 
-        if (!$(x).prop('checked')) {
+        if ($(x).prop('checked')) {
 
-            uncheckedModels.push(x.value);
+            checkedModels.push(x.value);
 
         }
 
@@ -143,7 +143,7 @@
                 type: "POST"
                 , url: "Systems"
                 , contentType: 'application/json;'
-                , data: JSON.stringify({ selected: uncheckedSystems })
+                , data: JSON.stringify({ selected: checkedSystems })
                 , success: function (result) {
                     $("#systems").html(result);
                 }
@@ -165,7 +165,7 @@
                 type: "POST"
                 , url: "ShowColor"
             , contentType: 'application/json;'
-            , data: JSON.stringify({ selected: uncheckedColors })
+            , data: JSON.stringify({ selected: checkedColors })
                 , success: function (result) {
                     $("#colorChk").html(result);
                 }
@@ -185,7 +185,7 @@
                 type: "POST"
                 , url: "ShowModel"
                 , contentType: 'application/json;'
-                , data: JSON.stringify({ selected: uncheckedModels, sysSelect: uncheckedSystems })
+                , data: JSON.stringify({ selected: checkedModels, sysSelect: checkedSystems })
                 , success: function (result) {
                     $("#modelChk").html(result);
                 }

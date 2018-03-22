@@ -339,6 +339,7 @@
     <Content Include="Views\Guest\_Colors.cshtml" />
     <Content Include="Views\Guest\_Models.cshtml" />
     <Content Include="Views\Guest\_SystemCheck.cshtml" />
+    <Content Include="Views\Guest\_CartSymbol.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

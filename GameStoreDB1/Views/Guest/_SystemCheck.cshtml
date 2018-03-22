@@ -15,14 +15,14 @@
             {
                 
                     <div>
-                        <input id="@item.SystemId" value="@item.SystemId" type="checkbox"  onclick="SelectSystem(this)" /> @item.SystemName
+                        <input id="@item.SystemId" value="@item.SystemId" type="checkbox" checked="checked" onclick="SelectSystem(this)" /> @item.SystemName
                     </div>
           
             }
             else
             {
                     <div>
-                        <input id="@item.SystemId" value="@item.SystemId" type="checkbox" checked="checked" onclick="SelectSystem(this)" /> @item.SystemName
+                        <input id="@item.SystemId" value="@item.SystemId" type="checkbox"  onclick="SelectSystem(this)" /> @item.SystemName
                     </div>
             }
             
@@ -30,7 +30,7 @@
         else if(systemArray == null)
         {
             <div>
-                <input id="@item.SystemId" value="@item.SystemId" type="checkbox" checked="true" onclick="SelectSystem(this)" /> @item.SystemName
+                <input id="@item.SystemId" value="@item.SystemId" type="checkbox"  onclick="SelectSystem(this)" /> @item.SystemName
             </div>
         }
     }
