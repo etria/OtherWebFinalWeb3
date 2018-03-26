@@ -164,31 +164,9 @@ namespace GameStoreDB1.Controllers
         {
             ViewBag.cart = 0;
             var acc = db.Accessories.Where(a=>a.AccId ==id).Include(a=>a.Items).ToArray() ;
-            var items = acc[0].Items.ToArray(); 
-            
-            if (Session["cart"] == null)
-            {
-                List<int> li = new List<int>();
-                li.Add(items[0].ItemId);
-                Session["cart"] = li;
-                
+            var items = acc[0].Items.ToArray();
 
-                Session["count"] = 1;
-            }
-            else
-            {
-                List<int> li = (List<int>)Session["cart"];
-                for (int i = 0; i <= items.Length-1; i++)
-                {
-                    if (!li.Contains(items[i].ItemId))
-                    {
-                        li.Add(items[i].ItemId);
-                        Session["cart"] = li;
-                        
-                        Session["count"] = Convert.ToInt32(Session["count"]) + 1;
-                    }
-                }
-            }
+            AddToCart(items);
             ViewBag.cart = Session["count"];
             return PartialView("_CartSymbol");
 
@@ -200,29 +178,7 @@ namespace GameStoreDB1.Controllers
             var acc = db.Games.Where(a => a.GameId == id).Include(a => a.Items).ToArray();
             var items = acc[0].Items.ToArray();
 
-            if (Session["cart"] == null)
-            {
-                List<int> li = new List<int>();
-                li.Add(items[0].ItemId);
-                Session["cart"] = li;
-
-
-                Session["count"] = 1;
-            }
-            else
-            {
-                List<int> li = (List<int>)Session["cart"];
-                for (int i = 0; i <= items.Length - 1; i++)
-                {
-                    if (!li.Contains(items[i].ItemId))
-                    {
-                        li.Add(items[i].ItemId);
-                        Session["cart"] = li;
-
-                        Session["count"] = Convert.ToInt32(Session["count"]) + 1;
-                    }
-                }
-            }
+            AddToCart(items);
             ViewBag.cart = Session["count"];
             return PartialView("_CartSymbol");
 
@@ -234,6 +190,13 @@ namespace GameStoreDB1.Controllers
             var acc = db.Consoles.Where(a => a.ConsoleId == id).Include(a => a.Items).ToArray();
             var items = acc[0].Items.ToArray();
 
+            AddToCart(items);
+            ViewBag.cart = Session["count"];
+            return PartialView("_CartSymbol");
+
+        }
+        public void AddToCart(Item[] items)
+        {
             if (Session["cart"] == null)
             {
                 List<int> li = new List<int>();
@@ -254,16 +217,10 @@ namespace GameStoreDB1.Controllers
                         Session["cart"] = li;
 
                         Session["count"] = Convert.ToInt32(Session["count"]) + 1;
+                        break;
                     }
                 }
             }
-            ViewBag.cart = Session["count"];
-            return PartialView("_CartSymbol");
-
-        }
-        public void AddToCart(int itemId)
-        {
-           
         }
 
     }
