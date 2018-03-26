@@ -199,4 +199,16 @@
             $('#model-icon').addClass("glyphicon-menu-down");
         }
     }
+    function AddToCart(x) {
+        $.ajax({
+            type: "POST"
+            , url: "AddConToCart"
+            , contentType: 'application/json;'
+            , data: JSON.stringify({ id: x.value })
+            , success: function (result) {
+                $("#cart").html(result);
+            }
+
+        });
+    }
 </script>

@@ -156,38 +156,114 @@ namespace GameStoreDB1.Controllers
         }
         public ActionResult _CartSymbol()
         {
-            ViewBag.cart = 0;
+            ViewBag.cart = Session["count"];
             return PartialView("_CartSymbol");
         }
         [HttpPost]
-        public ActionResult AddAccToCart(int id)
+        public ActionResult AddAccToCart(int? id)
         {
             ViewBag.cart = 0;
-            AddToCart(id);
-            return PartialView("_CartSymbol");
-
-        }
-        public void AddToCart(int itemId)
-        {
+            var acc = db.Accessories.Where(a=>a.AccId ==id).Include(a=>a.Items).ToArray() ;
+            var items = acc[0].Items.ToArray(); 
+            
             if (Session["cart"] == null)
             {
                 List<int> li = new List<int>();
-
-                li.Add(itemId);
+                li.Add(items[0].ItemId);
                 Session["cart"] = li;
-                ViewBag.cart = li.Count();
+                
 
                 Session["count"] = 1;
             }
             else
             {
                 List<int> li = (List<int>)Session["cart"];
-                li.Add(itemId);
-                Session["cart"] = li;
-                ViewBag.cart = li.Count();
-                Session["count"] = Convert.ToInt32(Session["count"]) + 1;
-
+                for (int i = 0; i <= items.Length-1; i++)
+                {
+                    if (!li.Contains(items[i].ItemId))
+                    {
+                        li.Add(items[i].ItemId);
+                        Session["cart"] = li;
+                        
+                        Session["count"] = Convert.ToInt32(Session["count"]) + 1;
+                    }
+                }
             }
+            ViewBag.cart = Session["count"];
+            return PartialView("_CartSymbol");
+
+        }
+        [HttpPost]
+        public ActionResult AddGameToCart(int? id)
+        {
+            ViewBag.cart = 0;
+            var acc = db.Games.Where(a => a.GameId == id).Include(a => a.Items).ToArray();
+            var items = acc[0].Items.ToArray();
+
+            if (Session["cart"] == null)
+            {
+                List<int> li = new List<int>();
+                li.Add(items[0].ItemId);
+                Session["cart"] = li;
+
+
+                Session["count"] = 1;
+            }
+            else
+            {
+                List<int> li = (List<int>)Session["cart"];
+                for (int i = 0; i <= items.Length - 1; i++)
+                {
+                    if (!li.Contains(items[i].ItemId))
+                    {
+                        li.Add(items[i].ItemId);
+                        Session["cart"] = li;
+
+                        Session["count"] = Convert.ToInt32(Session["count"]) + 1;
+                    }
+                }
+            }
+            ViewBag.cart = Session["count"];
+            return PartialView("_CartSymbol");
+
+        }
+        [HttpPost]
+        public ActionResult AddConToCart(int? id)
+        {
+            ViewBag.cart = 0;
+            var acc = db.Consoles.Where(a => a.ConsoleId == id).Include(a => a.Items).ToArray();
+            var items = acc[0].Items.ToArray();
+
+            if (Session["cart"] == null)
+            {
+                List<int> li = new List<int>();
+                li.Add(items[0].ItemId);
+                Session["cart"] = li;
+
+
+                Session["count"] = 1;
+            }
+            else
+            {
+                List<int> li = (List<int>)Session["cart"];
+                for (int i = 0; i <= items.Length - 1; i++)
+                {
+                    if (!li.Contains(items[i].ItemId))
+                    {
+                        li.Add(items[i].ItemId);
+                        Session["cart"] = li;
+
+                        Session["count"] = Convert.ToInt32(Session["count"]) + 1;
+                    }
+                }
+            }
+            ViewBag.cart = Session["count"];
+            return PartialView("_CartSymbol");
+
+        }
+        public void AddToCart(int itemId)
+        {
+           
         }
 
     }

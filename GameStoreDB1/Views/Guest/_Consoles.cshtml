@@ -35,7 +35,7 @@
                 <td>
 
                     @Html.ActionLink("Details", "Details", new { id = item.ConsoleId }) |
-                    @Html.ActionLink("Add to Cart", "AddToCart", new { id = item.ConsoleId })
+                    <input value="@item.ConsoleId" type="button" text="Add to Cart" onclick="AddToCart(this)" />
 
                 </td>
             </tr>
