@@ -166,7 +166,7 @@ namespace GameStoreDB1.Controllers
             var acc = db.Accessories.Where(a=>a.AccId ==id).Include(a=>a.Items).ToArray() ;
             var items = acc[0].Items.ToArray();
 
-            AddToCart(items);
+            AddToCart((int)id,"cartA", items.Count());
             ViewBag.cart = Session["count"];
             return PartialView("_CartSymbol");
 
@@ -178,7 +178,7 @@ namespace GameStoreDB1.Controllers
             var acc = db.Games.Where(a => a.GameId == id).Include(a => a.Items).ToArray();
             var items = acc[0].Items.ToArray();
 
-            AddToCart(items);
+            AddToCart((int)id, "cartG", items.Count());
             ViewBag.cart = Session["count"];
             return PartialView("_CartSymbol");
 
@@ -190,38 +190,102 @@ namespace GameStoreDB1.Controllers
             var acc = db.Consoles.Where(a => a.ConsoleId == id).Include(a => a.Items).ToArray();
             var items = acc[0].Items.ToArray();
 
-            AddToCart(items);
+            AddToCart((int)id,"cartC", items.Count());
             ViewBag.cart = Session["count"];
             return PartialView("_CartSymbol");
 
         }
-        public void AddToCart(Item[] items)
+        public void AddToCart(int id, string cart, int items)
         {
-            if (Session["cart"] == null)
+            if (Session[cart] == null)
             {
-                List<int> li = new List<int>();
-                li.Add(items[0].ItemId);
-                Session["cart"] = li;
+                List<int[]> li = new List<int[]>();
+                int[] idCount = { id, 1 };
+                li.Add(idCount);
+                Session[cart] = li;
 
 
                 Session["count"] = 1;
             }
             else
             {
-                List<int> li = (List<int>)Session["cart"];
-                for (int i = 0; i <= items.Length - 1; i++)
+                List<int[]> li = (List<int[]>)Session[cart];
+                if (!li[0].Contains(id))
                 {
-                    if (!li.Contains(items[i].ItemId))
-                    {
-                        li.Add(items[i].ItemId);
-                        Session["cart"] = li;
+                        int[] idCount = { id, 1 };
+                        li.Add(idCount);
+                        Session[cart] = li;
 
-                        Session["count"] = Convert.ToInt32(Session["count"]) + 1;
-                        break;
+                }
+                else {
+                    foreach (var ld in li)
+                    {
+                        if (ld[0] == id)
+                        {
+                            if (ld[1] < items)
+                            {
+                                ld[1] += 1;
+                            }
+                            else
+                            {
+                                goto NOTADDED;
+                                //error
+                            }
+                        }
                     }
                 }
+
+                Session["count"] = Convert.ToInt32(Session["count"]) + 1;
+                NOTADDED:;
+
             }
         }
 
+        public ActionResult _CartGames()
+        {
+            var game = db.Games.Where(g => g.GameId == null);
+            List<int[]> li = (List<int[]>)Session["cartG"];
+            if (li !=null)
+            {
+                List<int> list = new List<int>();
+                foreach (var liId in li)
+                {
+                    list.Add(liId[0]);
+                }
+                game = db.Games.Where(g => list.Contains(g.GameId));
+            }
+          
+            return PartialView("_CartGames",game);
+        }
+        public ActionResult _CartConsoles()
+        {
+            var con = db.Consoles.Where(c => c.ConsoleId==null);
+            List<int[]> li = (List<int[]>)Session["cartC"];
+            if (li!=null)
+            {
+                List<int> list = new List<int>();
+                foreach (var liId in li)
+                {
+                    list.Add(liId[0]);
+                }
+                 con = db.Consoles.Where(c => list.Contains(c.ConsoleId));
+            }
+            return PartialView("_CartConsoles", con);
+        }
+        public ActionResult _CartAcc()
+        {
+            var acc = db.Accessories.Where(a => a.AccId==null);
+            List<int[]> li = (List<int[]>)Session["cartA"];
+            if (li!=null)
+            {
+                List<int> list = new List<int>();
+                foreach (var liId in li)
+                {
+                    list.Add(liId[0]);
+                }
+               acc = db.Accessories.Where(a => list.Contains(a.AccId));
+            }
+            return PartialView("_CartAcc", acc);
+        }
     }
 }

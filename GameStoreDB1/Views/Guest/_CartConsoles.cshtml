@@ -1,0 +1,67 @@
+﻿
+@model IEnumerable<GameStoreDB1.Console>
+
+
+<table class="table">
+    <tr>
+
+
+        <td>
+            @Html.DisplayNameFor(model => model.Model.GameSystem.SystemName)
+        </td>
+        <th>
+            @Html.DisplayNameFor(model => model.Model.ModelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Color1.Color1)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        if (item.Items.Count == 1)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model.GameSystem.SystemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model.ModelName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color1.Color1)
+                </td>
+                <td>
+
+                  
+                    <input name="@item.ConsoleId" type="button" value="Remove From Cart" onclick="RemoveFromCart(this)" />
+
+                </td>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model.GameSystem.SystemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model.ModelName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color1.Color1)
+                </td>
+                <td>
+
+                    @Html.ActionLink("Details", "Details", new { id = item.ConsoleId }) |
+                    Not Available
+
+                </td>
+            </tr>
+        }
+    }
+
+</table>
+

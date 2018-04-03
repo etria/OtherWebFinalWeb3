@@ -160,7 +160,7 @@
             type: "POST"
             , url: "AddAccToCart"
             , contentType: 'application/json;'
-            , data: JSON.stringify({ id: x.value })
+            , data: JSON.stringify({ id: x.name })
             , success: function (result) {
                 $("#cart").html(result);
             }

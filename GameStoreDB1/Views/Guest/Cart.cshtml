@@ -3,5 +3,41 @@
     ViewBag.Title = "Cart";
 }
 
-<h2>Cart</h2>
+<div class="row">
+    <div class="col-sm-4 col-md-3 col-lg-2 bg-main" style="padding-top:4%; padding-bottom:12%;">
+    </div>
+    <div class="col-sm-8 col-md-9 col-lg-10">
 
+        <h2>Cart</h2>
+
+        <h5>Games</h5>
+        <div class="row">
+            <div class="col-10-offset-1" id="tblGamesG">
+                @Html.Action("_CartGames")
+            </div>
+            <h5>Consoles</h5>
+            <div class="col-10-offset-1" id="tblConsolesG">
+                @Html.Action("_CartConsoles")
+            </div>
+            <h5>Accessories</h5>
+            <div class="col-10-offset-1" id="tblAccG">
+                @Html.Action("_CartAcc")
+            </div>
+        </div>
+    </div>
+    <button>Checkout</button>
+</div>
+<script type="text/javascript">
+    function RemoveFromCart(x) {
+        $.ajax({
+            type: "POST"
+            , url: "RemoveGameFromCart"
+            , contentType: 'application/json;'
+            , data: JSON.stringify({ id: x.name })
+            , success: function (result) {
+                $("#cart").html(result);
+            }
+
+        });
+    }
+</script>
