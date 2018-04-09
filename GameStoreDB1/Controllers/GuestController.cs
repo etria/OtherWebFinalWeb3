@@ -1,4 +1,11 @@
-﻿using System;
+﻿//TODO:
+//Get buttons on cart page to work
+//try to makeit so layout works on IE
+//Modal for checkout
+//email checkout
+//error messages when item not added
+//
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -127,23 +134,27 @@ namespace GameStoreDB1.Controllers
         // Thanks to Mike Richards who commented on the answer here https://stackoverflow.com/questions/2539442/linq-array-property-contains-element-from-another-array. 
         //It was the key I needed to understand the array to hashset used both here and in ConsoleDisplay.
         [HttpPost]
-        public ActionResult AccDisplay(int[] sysSelect, int[] modSelect)
+        public ActionResult AccDisplay(string discription, int[] sysSelect, int[] modSelect)
         {
             var selectedAcc = db.Accessories.Where(a=>a.AccId == null);
             var acc = db.Accessories.Include(a => a.AccType1).Include(a => a.Items);
        
           if (sysSelect != null && modSelect != null)
             {
-                acc = acc.Where(a => a.Models.Any(id => sysSelect.Contains(id.ModelId) || modSelect.Contains(id.ModelId)));
+                acc = acc.Where(a => a.Models.Any(id => sysSelect.Contains(id.ModelId) || modSelect.Contains(id.ModelId)) && a.Discription.Contains(discription));
             }
     
             else if (sysSelect != null)
             {
-                acc = acc.Where(a => a.Models.Any(id => sysSelect.Contains((int)id.SystemId)));
+                acc = acc.Where(a => a.Models.Any(id => sysSelect.Contains((int)id.SystemId)) && a.Discription.Contains(discription));
             }
             else if (modSelect != null)
             {
-                acc = acc.Where(a => a.Models.Any(id => modSelect.Contains(id.ModelId)));
+                acc = acc.Where(a => a.Models.Any(id => modSelect.Contains(id.ModelId)) && a.Discription.Contains(discription));
+            }
+          else
+            {
+                acc = acc.Where(a=> a.Discription.Contains(discription));
             }
 
             return PartialView("_Accessories", acc);
@@ -204,8 +215,14 @@ namespace GameStoreDB1.Controllers
                 li.Add(idCount);
                 Session[cart] = li;
 
-
-                Session["count"] = 1;
+                if (Session["count"] == null)
+                {
+                    Session["count"] = 1;
+                }
+                else
+                {
+                    Session["count"] = Convert.ToInt32(Session["count"]) + 1;
+                }
             }
             else
             {
