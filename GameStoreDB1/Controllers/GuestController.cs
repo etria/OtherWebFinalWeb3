@@ -167,7 +167,7 @@ namespace GameStoreDB1.Controllers
             var items = acc[0].Items.ToArray();
 
             AddToCart((int)id,"cartA", items.Count());
-            ViewBag.cart = Session["count"];
+            //ViewBag.cart = Session["count"];
             return PartialView("_CartSymbol");
 
         }
@@ -179,7 +179,7 @@ namespace GameStoreDB1.Controllers
             var items = acc[0].Items.ToArray();
 
             AddToCart((int)id, "cartG", items.Count());
-            ViewBag.cart = Session["count"];
+            //ViewBag.cart = Session["count"];
             return PartialView("_CartSymbol");
 
         }
@@ -191,7 +191,7 @@ namespace GameStoreDB1.Controllers
             var items = acc[0].Items.ToArray();
 
             AddToCart((int)id,"cartC", items.Count());
-            ViewBag.cart = Session["count"];
+            //ViewBag.cart = Session["count"];
             return PartialView("_CartSymbol");
 
         }
@@ -286,6 +286,41 @@ namespace GameStoreDB1.Controllers
                acc = db.Accessories.Where(a => list.Contains(a.AccId));
             }
             return PartialView("_CartAcc", acc);
+        }
+        [HttpPost]
+        public ActionResult RemoveGameFromCart(int id)
+        {
+            List<int> cartGames = (List<int>)Session["CartG"];
+            cartGames.Remove(id);
+            var games = db.Games.Where(g => cartGames.Contains(g.GameId));
+            Session["CartG"] = cartGames;
+            return PartialView("_CartGames", games);
+        }
+        [HttpPost]
+        public ActionResult RemoveConFromCart(int id)
+        {
+            List<int> cartCon = (List<int>)Session["CartC"];
+            cartCon.Remove(id);
+            var cons = db.Consoles.Where(c => cartCon.Contains(c.ConsoleId));
+            Session["Cart"] = cartCon;
+
+            return PartialView("_CartConsoles", cons);
+        }
+        [HttpPost]
+        public ActionResult RemoveAccFromCart(int id)
+        {
+            List<int> cartAcc = (List<int>)Session["CartA"];
+            cartAcc.Remove(id);
+            var acc = db.Accessories.Where(a => cartAcc.Contains(a.AccId));
+            Session["Cart"] = cartAcc;
+
+            return PartialView("_CartAcc", acc);
+        }
+        [HttpPost]
+        public ActionResult Checkout()
+        {
+
+            return PartialView("_Checkout");
         }
     }
 }
