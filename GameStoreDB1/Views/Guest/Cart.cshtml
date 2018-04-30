@@ -44,7 +44,6 @@
         $.ajax({
             type: "POST"
             , url: "RemoveGameFromCart"
-            , contentType: 'application/json;'
             , data: JSON.stringify({ id: x.name })
             , success: function (result) {
                 $("#tblGames").html(result);
