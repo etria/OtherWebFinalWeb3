@@ -9,81 +9,96 @@
     <div class="col-sm-8 col-md-9 col-lg-10">
         @using (Html.BeginForm())
         {
-        <h2>Cart</h2>
+            <h2>Cart</h2>
 
-        <h5>Games</h5>
-        <div class="row">
-            <div class="col-10-offset-1" id="tblGames">
-                @Html.Action("_CartGames")
+            <h5>Games</h5>
+            <div class="row">
+                <div class="col-10-offset-1" id="tblGames">
+                    @Html.Action("_CartGames")
+                </div>
+                <h5>Consoles</h5>
+                <div class="col-10-offset-1" id="tblConsoles">
+                    @Html.Action("_CartConsoles")
+                </div>
+                <h5>Accessories</h5>
+                <div class="col-10-offset-1" id="tblAcc">
+                    @Html.Action("_CartAcc")
+                </div>
             </div>
-            <h5>Consoles</h5>
-            <div class="col-10-offset-1" id="tblConsoles">
-                @Html.Action("_CartConsoles")
-            </div>
-            <h5>Accessories</h5>
-            <div class="col-10-offset-1" id="tblAcc">
-                @Html.Action("_CartAcc")
-            </div>
-        </div>
-        <input type="button" value="Checkout" onclick="Checkout()" />
+            <input type="button" value="Checkout" data-toggle="modal" data-target="#myModal" />
+            <asp:Panel id='myModal' class='modal' runat="server">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div id='myModalContent'>
+                            @Html.Action("_checkout")
+                        </div>
+                    </div>
+                </div>
+
+            </asp:Panel>
         }
     </div>
 </div>
 
-<div id='myModal' class='modal'>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id='myModalContent'></div>
-        </div>
-    </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 
-</div>
+}
 
 <script type="text/javascript">
     function RemoveGameFromCart(x) {
         $.ajax({
             type: "POST"
             , url: "RemoveGameFromCart"
+            , contentType: 'application/json;'
             , data: JSON.stringify({ id: x.name })
             , success: function (result) {
                 $("#tblGames").html(result);
+                $("#cart").load();
+
             }
 
         });
-        function RemoveAccFromCart(x) {
-            $.ajax({
-                type: "POST"
-                , url: "RemoveAccFromCart"
-                , contentType: 'application/json;'
-                , data: JSON.stringify({ id: x.name })
-                , success: function (result) {
-                    $("#tblAcc").html(result);
+    }
+    function RemoveAccFromCart(x) {
+        $.ajax({
+            type: "POST"
+            , url: "RemoveAccFromCart"
+            , contentType: 'application/json;'
+            , data: JSON.stringify({ id: x.name })
+            , success: function (result) {
+                $("#tblAcc").html(result);
+            }
+
+        });
+        $("#cart").load(_CartSymbol)
+    }
+    function RemoveConFromCart(x) {
+        $.ajax({
+            type: "POST"
+            , url: "RemoveConFromCart"
+            , contentType: 'application/json;'
+            , data: JSON.stringify({ id: x.name })
+            , success: function (result) {
+                $("#tblConsoles").html(result);
+                $("#cart").html(result);
+
+            }
+
+        });
+    }
+                function Checkout() {
+                    $.ajax({
+                        type: "POST"
+                        , url: "Checkout"
+                        , contentType: 'application/json;'
+
+                        , success: function (result) {
+                            $('#myModalContent').html(result);
+
+
+                        }
+
+                    });
                 }
-
-            });
-            function RemoveConFromCart(x) {
-                $.ajax({
-                    type: "POST"
-                    , url: "RemoveConFromCart"
-                    , contentType: 'application/json;'
-                    , data: JSON.stringify({ id: x.name })
-                    , success: function (result) {
-                        $("#tblConsoles").html(result);
-                    }
-
-                });
-        function Checkout() {
-            $.ajax({
-                type: "POST"
-                , url: "Checkout"
-                , contentType: 'application/json;'
-
-                , success: function (result) {
-                    $('#myModalContent').html(result);
-                    
-                    //$('#myModal').modal('show');
-                }
-
-            });
-        }
 </script>

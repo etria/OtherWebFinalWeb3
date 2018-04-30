@@ -1,4 +1,9 @@
-﻿using System;
+﻿// figure out why can't add more to cart after item is removed
+// get cart sybol to pdate after remove button is pushed
+// email contact information and list of items
+// remove items from inventory
+// check why works it works in google but not explorer
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -175,8 +180,8 @@ namespace GameStoreDB1.Controllers
         public ActionResult AddGameToCart(int? id)
         {
             ViewBag.cart = 0;
-            var acc = db.Games.Where(a => a.GameId == id).Include(a => a.Items).ToArray();
-            var items = acc[0].Items.ToArray();
+            var game = db.Games.Where(a => a.GameId == id).Include(a => a.Items).ToArray();
+            var items = game[0].Items.ToArray();
 
             AddToCart((int)id, "cartG", items.Count());
             //ViewBag.cart = Session["count"];
@@ -204,8 +209,12 @@ namespace GameStoreDB1.Controllers
                 li.Add(idCount);
                 Session[cart] = li;
 
-
-                Session["count"] = 1;
+                if (Session["count"] == null){
+                    Session["count"] = 1;
+                }
+                else{
+                    Session["count"] = Convert.ToInt32(Session["count"]) + 1;
+                }
             }
             else
             {
@@ -290,18 +299,65 @@ namespace GameStoreDB1.Controllers
         [HttpPost]
         public ActionResult RemoveGameFromCart(int id)
         {
-            List<int> cartGames = (List<int>)Session["CartG"];
-            cartGames.Remove(id);
-            var games = db.Games.Where(g => cartGames.Contains(g.GameId));
+            List<int[]> cartGames = (List<int[]>)Session["CartG"];
+            foreach (var ld in cartGames)
+            {
+                if (ld[0] == id)
+                {
+                    if (ld[1] >= 2)
+                    {
+                        ld[1] -= 1;
+                        Session["count"] = Convert.ToInt32(Session["count"]) - 1;
+
+                    }
+                    else
+                    {
+                        cartGames.Remove(ld);
+                        Session["count"] = Convert.ToInt32(Session["count"]) - 1;
+
+                        break;
+                    }
+                }
+            }
+            List<int> list = new List<int>();
+            foreach (var liId in cartGames)
+            {
+                list.Add(liId[0]);
+            }
+            var games = db.Games.Where(g => list.Contains(g.GameId));
             Session["CartG"] = cartGames;
             return PartialView("_CartGames", games);
         }
         [HttpPost]
         public ActionResult RemoveConFromCart(int id)
         {
-            List<int> cartCon = (List<int>)Session["CartC"];
-            cartCon.Remove(id);
-            var cons = db.Consoles.Where(c => cartCon.Contains(c.ConsoleId));
+            List<int[]> cartCon = (List<int[]>)Session["CartC"];
+            
+            foreach (var ld in cartCon)
+            {
+                if (ld[0] == id)
+                {
+                    if (ld[1] >= 2)
+                    {
+                        ld[1] -= 1;
+                        Session["count"] = Convert.ToInt32(Session["count"])- 1;
+
+                    }
+                    else
+                    {
+                        cartCon.Remove(ld);
+                        Session["count"] = Convert.ToInt32(Session["count"]) - 1;
+
+                        break;
+                    }
+                }
+            }
+            List<int> list = new List<int>();
+            foreach (var liId in cartCon)
+            {
+                list.Add(liId[0]);
+            }
+            var cons = db.Consoles.Where(c => list.Contains(c.ConsoleId));
             Session["Cart"] = cartCon;
 
             return PartialView("_CartConsoles", cons);
@@ -309,15 +365,47 @@ namespace GameStoreDB1.Controllers
         [HttpPost]
         public ActionResult RemoveAccFromCart(int id)
         {
-            List<int> cartAcc = (List<int>)Session["CartA"];
-            cartAcc.Remove(id);
-            var acc = db.Accessories.Where(a => cartAcc.Contains(a.AccId));
+            List<int[]> cartAcc = (List<int[]>)Session["CartA"];
+            foreach (var ld in cartAcc)
+            {
+                if (ld[0] == id)
+                {
+                    if (ld[1] >= 2)
+                    {
+                        ld[1] -= 1;
+                        Session["count"] = Convert.ToInt32(Session["count"]) - 1;
+
+                    }
+                    else
+                    {
+                        cartAcc.Remove(ld);
+                        Session["count"] = Convert.ToInt32(Session["count"]) - 1;
+
+                        break;
+                    }
+                }
+            }
+            List<int> list = new List<int>();
+            foreach (var liId in cartAcc)
+            {
+                list.Add(liId[0]);
+            }
+            var acc = db.Accessories.Where(a => list.Contains(a.AccId));
             Session["Cart"] = cartAcc;
 
             return PartialView("_CartAcc", acc);
         }
         [HttpPost]
         public ActionResult Checkout()
+        {
+            List<int> cartGames = (List<int>)Session["CartG"];
+            List<int> cartCon = (List<int>)Session["CartC"];
+            List<int> cartAcc = (List<int>)Session["CartA"];
+
+
+            return PartialView("_Checkout");
+        }
+        public ActionResult _checkout()
         {
 
             return PartialView("_Checkout");

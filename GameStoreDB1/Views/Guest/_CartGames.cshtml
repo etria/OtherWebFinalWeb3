@@ -21,18 +21,22 @@
     @foreach (var item in Model)
     {
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.GameSystem.SystemName)
-                </td>
-                <td>
-                    <input name="@item.GameId" type="button" Value="Remove From Cart" onclick="RemoveGameFromCart(this)" />
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GameSystem.SystemName)
+            </td>
+            <td>
+                <input name="@item.GameId" type="button" Value="Remove From Cart" onclick="RemoveGameFromCart(this)" />
+            </td>
 
-            </tr>
+        </tr>
     }
-        </table>
+</table>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
