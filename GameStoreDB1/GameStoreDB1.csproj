@@ -344,6 +344,7 @@
     <Content Include="Views\Guest\_CartAcc.cshtml" />
     <Content Include="Views\Guest\_CartConsoles.cshtml" />
     <Content Include="Views\Guest\_Checkout.cshtml" />
+    <Content Include="Views\Guest\_Feedback.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

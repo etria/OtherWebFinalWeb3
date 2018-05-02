@@ -1,6 +1,6 @@
-﻿// figure out why can't add more to cart after item is removed
-// get cart sybol to pdate after remove button is pushed
-// email contact information and list of items
+﻿// figure out why can't add more to cart after item is removed  ++ fixed!
+// get cart sybol to pdate after remove button is pushed  ++ works except from 1 to 0
+// email contact information and list of items --still fails
 // remove items from inventory
 // check why works it works in google but not explorer
 using System;
@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.Mvc;
 using GameStoreDB1;
 using System.Web.Routing;
+using System.Net.Mail;
 //...
 namespace GameStoreDB1.Controllers
 {
@@ -218,19 +219,15 @@ namespace GameStoreDB1.Controllers
             }
             else
             {
+                Boolean newItem = true;
                 List<int[]> li = (List<int[]>)Session[cart];
-                if (!li[0].Contains(id))
-                {
-                        int[] idCount = { id, 1 };
-                        li.Add(idCount);
-                        Session[cart] = li;
-
-                }
-                else {
+            
                     foreach (var ld in li)
                     {
+                    newItem = false;
                         if (ld[0] == id)
                         {
+
                             if (ld[1] < items)
                             {
                                 ld[1] += 1;
@@ -241,7 +238,20 @@ namespace GameStoreDB1.Controllers
                                 //error
                             }
                         }
+                        else
+                        {
+                        newItem = true;
+                        }
                     }
+                if (newItem)
+                {
+                    int[] idCount = { id, 1 };
+                    li.Add(idCount);
+                    Session[cart] = li;
+
+                }
+                else
+                {
                 }
 
                 Session["count"] = Convert.ToInt32(Session["count"]) + 1;
@@ -340,7 +350,7 @@ namespace GameStoreDB1.Controllers
                     if (ld[1] >= 2)
                     {
                         ld[1] -= 1;
-                        Session["count"] = Convert.ToInt32(Session["count"])- 1;
+                        Session["count"] = Convert.ToInt32(Session["count"]) - 1;
 
                     }
                     else
@@ -396,14 +406,125 @@ namespace GameStoreDB1.Controllers
             return PartialView("_CartAcc", acc);
         }
         [HttpPost]
-        public ActionResult Checkout()
+        public ActionResult Checkout(string fName, string lName, string email)
         {
-            List<int> cartGames = (List<int>)Session["CartG"];
-            List<int> cartCon = (List<int>)Session["CartC"];
-            List<int> cartAcc = (List<int>)Session["CartA"];
+            var body = "An online order has been placed for the following items: \n";
+            List<int[]> cartGames = (List<int[]>)Session["CartG"];
+            List<int[]> cartCon = (List<int[]>)Session["CartC"];
+            List<int[]> cartAcc = (List<int[]>)Session["CartA"];
+            if (cartGames != null)
+            {
+                foreach (var game in cartGames)
+                {
+                    int gameId = game[0];
+                    var ga = db.Games.Where(g => g.GameId == gameId).Include(g => g.Items).Include(g => g.GameSystem).ToArray();
+                    var items = ga[0].Items.ToArray();
 
+                    for (var i = 1; i <= game[1]; i++)
+                    {
+                        try
+                        {
+                            body += "--  "+ga[0].Title + ", " + ga[0].GameSystem.SystemName + " \n";
+                            //remove item from database
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine(ex.StackTrace);
+                        }
+                    }
+                }
+            }
+            if (cartCon != null)
+            {
+                foreach (var con in cartCon)
+                {
+                    int conId = con[0];
+                    var cons = db.Consoles.Where(c => c.ConsoleId == conId).Include(c => c.Items).Include(c => c.Model).ToArray();
+                    var items = cons[0].Items.ToArray();
 
-            return PartialView("_Checkout");
+                    for (var i = 1; i <= con[1]; i++)
+                    {
+                        try
+                        {
+                            body += "--  " + cons[0].Model.GameSystem.SystemName + ", " + cons[0].Model.ModelName + ", " + cons[0].SerialNumber + " \n";
+                            //remove item from database
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine(ex.StackTrace);
+                        }
+                    }
+                }
+            }
+            if (cartAcc != null)
+            {
+                foreach (var acc in cartAcc)
+                {
+                    int accId = acc[0];
+                    var acces = db.Accessories.Where(a => a.AccId == accId).Include(a => a.Items).Include(a => a.Models).Include(a=>a.Games).ToArray();
+                    var items = acces[0].Items.ToArray();
+                    var model = acces[0].Models.ToArray();
+                    var games = acces[0].Games.ToArray();
+
+                    for (var i = 1; i <= acc[1]; i++)
+                    {
+                        try
+                        {
+                            body += "--  " + acces[0].Discription;
+                            foreach(var mod in model)
+                            {
+                                body += ", For the " + mod.GameSystem.SystemName + ": " + mod.ModelName;
+                            }
+                            foreach(var game in games)
+                            {
+                                body += ", with " + game.Title;
+                            }
+                            body += " \n";
+                            //remove item from database
+                        }
+                        catch (Exception ex)
+                        {
+                            System.Diagnostics.Debug.WriteLine(ex.StackTrace);
+                        }
+                    }
+                }
+            }
+            body += "Contact information: " + fName + " " + lName + "\n " + email;
+            var message = new MailMessage();
+            message.To.Add(new MailAddress("Amy.balser@hotmail.com"));  
+            message.From = new MailAddress("web3final@outlook.com"); 
+            message.Subject = "Online request";
+            message.Body = string.Format(body);
+            message.IsBodyHtml = true;
+            string feedback;
+            using (var smtp = new SmtpClient())
+            {
+
+                try
+                {
+                    var credential = new NetworkCredential
+                    {
+                        UserName = "web3final@outlook.com",
+                        Password = "Webpassword1"
+                    };
+                    smtp.Credentials = credential;
+                    smtp.Host = "smtp-mail.outlook.com";
+                    smtp.Port = 587;
+                    smtp.EnableSsl = true;
+                    smtp.Send(message);
+                    ViewBag.feedback = "sucessful!"; 
+                }
+                catch
+                {
+                    ViewBag.feedback = "failed";
+                }
+                return PartialView ("_Feedback");
+            }
+        }
+
+        public ActionResult _Feedback()
+        {
+            return PartialView("_Feedback");
         }
         public ActionResult _checkout()
         {

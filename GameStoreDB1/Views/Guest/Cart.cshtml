@@ -8,35 +8,45 @@
     </div>
     <div class="col-sm-8 col-md-9 col-lg-10">
         @using (Html.BeginForm())
-        {
-            <h2>Cart</h2>
+    {
+        <h2>Cart</h2>
 
-            <h5>Games</h5>
-            <div class="row">
-                <div class="col-10-offset-1" id="tblGames">
-                    @Html.Action("_CartGames")
-                </div>
-                <h5>Consoles</h5>
-                <div class="col-10-offset-1" id="tblConsoles">
-                    @Html.Action("_CartConsoles")
-                </div>
-                <h5>Accessories</h5>
-                <div class="col-10-offset-1" id="tblAcc">
-                    @Html.Action("_CartAcc")
-                </div>
+        <h5>Games</h5>
+        <div class="row">
+            <div class="col-10-offset-1" id="tblGames">
+                @Html.Action("_CartGames")
             </div>
-            <input type="button" value="Checkout" data-toggle="modal" data-target="#myModal" />
-            <asp:Panel id='myModal' class='modal' runat="server">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div id='myModalContent'>
-                            @Html.Action("_checkout")
-                        </div>
+            <h5>Consoles</h5>
+            <div class="col-10-offset-1" id="tblConsoles">
+                @Html.Action("_CartConsoles")
+            </div>
+            <h5>Accessories</h5>
+            <div class="col-10-offset-1" id="tblAcc">
+                @Html.Action("_CartAcc")
+            </div>
+        </div>
+        <input type="button" value="Checkout" data-toggle="modal" data-target="#myModal" />
+        <asp:Panel id='myModal' class='modal' runat="server">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='myModalContent'>
+                        @Html.Action("_checkout")
                     </div>
                 </div>
+            </div>
 
-            </asp:Panel>
-        }
+        </asp:Panel>
+        <asp:Panel id='feedback' class='modal' runat="server">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id='myfeedback'>
+                        
+                    </div>
+                </div>
+            </div>
+
+        </asp:Panel>
+}
     </div>
 </div>
 
@@ -54,8 +64,18 @@
             , data: JSON.stringify({ id: x.name })
             , success: function (result) {
                 $("#tblGames").html(result);
-                $("#cart").load();
+               
 
+            }
+
+        });
+        $.ajax({
+            //type: "POST"
+            url: "_CartSymbol"
+            , contentType: 'application/json;'
+
+            , success: function (result) {
+                $("#cart").html(result);
             }
 
         });
@@ -71,7 +91,16 @@
             }
 
         });
-        $("#cart").load(_CartSymbol)
+        $.ajax({
+            //type: "POST"
+             url: "_CartSymbol"
+            , contentType: 'application/json;'
+         
+            , success: function (result) {
+                $("#cart").html(result);
+            }
+
+        });
     }
     function RemoveConFromCart(x) {
         $.ajax({
@@ -81,24 +110,38 @@
             , data: JSON.stringify({ id: x.name })
             , success: function (result) {
                 $("#tblConsoles").html(result);
-                $("#cart").html(result);
+               
 
             }
 
         });
+        $.ajax({
+            //type: "POST"
+            url: "_CartSymbol"
+            , contentType: 'application/json;'
+
+            , success: function (result) {
+                $("#cart").html(result);
+            }
+
+        });
     }
-                function Checkout() {
+    function Checkout() {
+        $('#myModalContent').append("Sending your request");
                     $.ajax({
                         type: "POST"
                         , url: "Checkout"
                         , contentType: 'application/json;'
-
+                        , data: JSON.stringify({fName: $('#firstName').val(), lName: $('#lastName').val(), email: $('#email').val()})
                         , success: function (result) {
-                            $('#myModalContent').html(result);
-
+                            $('#myfeedback').html(result);
+                            
+                            $('#myModal').modal('hide');
+                            $('#feedback').modal('show');
 
                         }
 
-                    });
+        });
+                    
                 }
 </script>
