@@ -1,8 +1,12 @@
-﻿// figure out why can't add more to cart after item is removed  ++ fixed!
+﻿// check why it works in google but not explorer
+// formating bodyM
+
+
+// figure out why can't add more to cart after item is removed  ++ fixed!
 // get cart sybol to pdate after remove button is pushed  ++ works except from 1 to 0
-// email contact information and list of items --still fails
-// remove items from inventory
-// check why works it works in google but not explorer
+// email contact information and list of items ++ works
+// remove items from inventory ++ Works
+
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,6 +18,7 @@ using System.Web.Mvc;
 using GameStoreDB1;
 using System.Web.Routing;
 using System.Net.Mail;
+using System.Web.Helpers;
 //...
 namespace GameStoreDB1.Controllers
 {
@@ -408,12 +413,13 @@ namespace GameStoreDB1.Controllers
         [HttpPost]
         public ActionResult Checkout(string fName, string lName, string email)
         {
-            var body = "An online order has been placed for the following items: \n";
+            var bodyM = "An online order has been placed for the following items: \r\n";
             List<int[]> cartGames = (List<int[]>)Session["CartG"];
             List<int[]> cartCon = (List<int[]>)Session["CartC"];
             List<int[]> cartAcc = (List<int[]>)Session["CartA"];
             if (cartGames != null)
             {
+                bodyM += "- Games \n";
                 foreach (var game in cartGames)
                 {
                     int gameId = game[0];
@@ -424,8 +430,16 @@ namespace GameStoreDB1.Controllers
                     {
                         try
                         {
-                            body += "--  "+ga[0].Title + ", " + ga[0].GameSystem.SystemName + " \n";
+                            bodyM += "--  "+ga[0].Title + ", " + ga[0].GameSystem.SystemName + " \n";
                             //remove item from database
+                            var games = db.Games.Include(g => g.Items).SingleOrDefault(g => g.GameId == gameId);
+                            if (games != null)
+                            {
+                                var item = games.Items.ToList();
+                                games.Items.Remove(item[0]);
+                              
+                                db.SaveChanges();
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -436,6 +450,7 @@ namespace GameStoreDB1.Controllers
             }
             if (cartCon != null)
             {
+                bodyM += "- Consoles \n";
                 foreach (var con in cartCon)
                 {
                     int conId = con[0];
@@ -446,8 +461,16 @@ namespace GameStoreDB1.Controllers
                     {
                         try
                         {
-                            body += "--  " + cons[0].Model.GameSystem.SystemName + ", " + cons[0].Model.ModelName + ", " + cons[0].SerialNumber + " \n";
+                            bodyM += "--  " + cons[0].Model.GameSystem.SystemName + ", " + cons[0].Model.ModelName + ", " + cons[0].SerialNumber + " \n";
                             //remove item from database
+                            var console = db.Consoles.Include(g => g.Items).SingleOrDefault(g => g.ConsoleId == conId);
+                            if (console != null)
+                            {
+                                var item = console.Items.ToList();
+                                console.Items.Remove(item[0]);
+
+                                db.SaveChanges();
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -458,6 +481,7 @@ namespace GameStoreDB1.Controllers
             }
             if (cartAcc != null)
             {
+                bodyM += "- Accessories \n";
                 foreach (var acc in cartAcc)
                 {
                     int accId = acc[0];
@@ -470,17 +494,25 @@ namespace GameStoreDB1.Controllers
                     {
                         try
                         {
-                            body += "--  " + acces[0].Discription;
+                            bodyM += "--  " + acces[0].Discription;
                             foreach(var mod in model)
                             {
-                                body += ", For the " + mod.GameSystem.SystemName + ": " + mod.ModelName;
+                                bodyM += ", For the " + mod.GameSystem.SystemName + ": " + mod.ModelName;
                             }
                             foreach(var game in games)
                             {
-                                body += ", with " + game.Title;
+                                bodyM += ", with " + game.Title;
                             }
-                            body += " \n";
+                            bodyM += " \n";
                             //remove item from database
+                            var accessory = db.Accessories.Include(g => g.Items).SingleOrDefault(g => g.AccId == accId);
+                            if (accessory != null)
+                            {
+                                var item = accessory.Items.ToList();
+                                accessory.Items.Remove(item[0]);
+
+                                db.SaveChanges();
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -489,37 +521,36 @@ namespace GameStoreDB1.Controllers
                     }
                 }
             }
-            body += "Contact information: " + fName + " " + lName + "\n " + email;
-            var message = new MailMessage();
-            message.To.Add(new MailAddress("Amy.balser@hotmail.com"));  
-            message.From = new MailAddress("web3final@outlook.com"); 
+            bodyM += "Contact information: " + fName + " " + lName + "\n " + email;
+            MailMessage message = new MailMessage();
+            message.To.Add("Amy.balser@hotmail.com");  
+            message.From = new MailAddress("webiiifinal@outlook.com"); 
             message.Subject = "Online request";
-            message.Body = string.Format(body);
+            message.Body = string.Format(bodyM);
             message.IsBodyHtml = true;
-            string feedback;
-            using (var smtp = new SmtpClient())
-            {
+            //string feedback;
+            SmtpClient smtp = new SmtpClient();
+            
 
                 try
                 {
-                    var credential = new NetworkCredential
-                    {
-                        UserName = "web3final@outlook.com",
-                        Password = "Webpassword1"
-                    };
-                    smtp.Credentials = credential;
-                    smtp.Host = "smtp-mail.outlook.com";
-                    smtp.Port = 587;
-                    smtp.EnableSsl = true;
-                    smtp.Send(message);
-                    ViewBag.feedback = "sucessful!"; 
+                 NetworkCredential credential = new NetworkCredential("webiiifinal@outlook.com", "Webpassword1");
+
+                 smtp.Credentials = credential;
+                 smtp.Host = "smtp-mail.outlook.com";
+                 smtp.Port = 587;
+                 smtp.EnableSsl = true;
+                 smtp.Send(message);
+                
+                ViewBag.feedback = "Sucessful! \n The following has been sent to For Your Gaming Needs \n" + bodyM ; 
                 }
-                catch
+                catch (Exception ex)
                 {
-                    ViewBag.feedback = "failed";
+                System.Diagnostics.Debug.WriteLine(ex.StackTrace);
+                ViewBag.feedback = "failed";
                 }
                 return PartialView ("_Feedback");
-            }
+            
         }
 
         public ActionResult _Feedback()
