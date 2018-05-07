@@ -65,20 +65,12 @@
             , success: function (result) {
                 $("#tblGames").html(result);
                
-
+                $.get("_CartSymbol", function (result) { $("#cart").html(result); });
             }
-
+            
         });
-        $.ajax({
-            //type: "POST"
-            url: "_CartSymbol"
-            , contentType: 'application/json;'
 
-            , success: function (result) {
-                $("#cart").html(result);
-            }
 
-        });
     }
     function RemoveAccFromCart(x) {
         $.ajax({
@@ -88,19 +80,12 @@
             , data: JSON.stringify({ id: x.name })
             , success: function (result) {
                 $("#tblAcc").html(result);
+                $.get("_CartSymbol", function (result) { $("#cart").html(result); });
             }
 
         });
-        $.ajax({
-            //type: "POST"
-             url: "_CartSymbol"
-            , contentType: 'application/json;'
-         
-            , success: function (result) {
-                $("#cart").html(result);
-            }
 
-        });
+
     }
     function RemoveConFromCart(x) {
         $.ajax({
@@ -111,20 +96,12 @@
             , success: function (result) {
                 $("#tblConsoles").html(result);
                
-
+                $.get("_CartSymbol", function (result) { $("#cart").html(result); });
             }
 
         });
-        $.ajax({
-            //type: "POST"
-            url: "_CartSymbol"
-            , contentType: 'application/json;'
 
-            , success: function (result) {
-                $("#cart").html(result);
-            }
 
-        });
     }
     function Checkout() {
         $('#myModalContent').append("Sending your request");
@@ -139,6 +116,13 @@
                             $('#myModal').modal('hide');
                             $('#feedback').modal('show');
 
+                            $.get("_CartGames", function (result) { $('#tblGames').html(result); 
+                            $.get("_CartConsoles", function (result) { $('#tblConsoles').html(result); 
+                            $.get("_CartAcc", function (result) { $('#tblAcc').html(result); 
+                            $.get("_CartSymbol", function (result) { $("#cart").html(result); });
+                            });
+                            });
+                            });
                         }
 
         });

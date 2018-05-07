@@ -1,7 +1,7 @@
 ﻿@{
     var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
     string cLayout = "";
-    if (controller == "Guest")
+    if (controller.Equals("Guest") || controller.Equals("guest"))
     {
         cLayout = "~/Views/Shared/_GuestLayout.cshtml";
     }

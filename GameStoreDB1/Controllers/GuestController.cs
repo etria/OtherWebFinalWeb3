@@ -1,4 +1,4 @@
-﻿// check why it works in google but not explorer
+﻿// check why it works in google but not explorer  + fixed ( cahnged == to .equals())
 // formating bodyM
 
 
@@ -542,8 +542,12 @@ namespace GameStoreDB1.Controllers
                  smtp.EnableSsl = true;
                  smtp.Send(message);
                 
-                ViewBag.feedback = "Sucessful! \n The following has been sent to For Your Gaming Needs \n" + bodyM ; 
-                }
+                ViewBag.feedback = "Sucessful! \n The following has been sent to For Your Gaming Needs \n" + bodyM ;
+                Session["CartG"] = null;
+                Session["CartC"] = null;
+                Session["CartA"] = null;
+                Session["Count"] = 0;
+            }
                 catch (Exception ex)
                 {
                 System.Diagnostics.Debug.WriteLine(ex.StackTrace);

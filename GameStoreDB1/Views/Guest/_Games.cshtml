@@ -8,11 +8,11 @@
 <table class="table table-striped">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            <h4>Title</h4>
         </th>
 
         <th>
-            @Html.DisplayNameFor(model => model.GameSystem.SystemName)
+            <h4>System</h4>
         </th>
         <th>
 
@@ -33,36 +33,36 @@
                     @Html.DisplayFor(modelItem => item.GameSystem.SystemName)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.GameId }) |
-                    <input name="@item.GameId" type="button" Value="Add to Cart" onclick="AddToCart(this)" />
-                </td>
+                    <!-- @Html.ActionLink("Details", "Details", new { id = item.GameId }) |-->
+                        <input name="@item.GameId" type="button" Value="Add to Cart" onclick="AddToCart(this)" />
+                    </td>
 
-            </tr>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GameSystem.SystemName)
+                    </td>
+                    <td>
+                        <!--@Html.ActionLink("Details", "Details", new { id = item.GameId }) | -->
+                        None Available
+                    </td>
+
+                </tr>
+            }
         }
-        else
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.GameSystem.SystemName)
-                </td>
-                <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.GameId }) |
-                    None Available
-                </td>
+    </table>
 
-            </tr>
-        }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+
     }
-
-</table>
-
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-
-}
 

@@ -6,13 +6,13 @@
 
 
         <td>
-            @Html.DisplayNameFor(model => model.Model.GameSystem.SystemName)
+            <h4>System</h4>
         </td>
         <th>
-            @Html.DisplayNameFor(model => model.Model.ModelName)
+            <h4>Model</h4>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Color1.Color1)
+            <h4>Color</h4>
         </th>
 
         <th></th>
@@ -34,7 +34,7 @@
                 </td>
                 <td>
 
-                    @Html.ActionLink("Details", "Details", new { id = item.ConsoleId }) |
+                   <!-- @Html.ActionLink("Details", "Details", new { id = item.ConsoleId }) | -->
                     <input name="@item.ConsoleId" type="button" value="Add to Cart" onclick="AddToCart(this)" />
 
                 </td>
@@ -54,13 +54,13 @@
                 </td>
                 <td>
 
-                    @Html.ActionLink("Details", "Details", new { id = item.ConsoleId }) |
-                   Not Available
+                    <!-- @Html.ActionLink("Details", "Details", new { id = item.ConsoleId }) | -->
+                       Not Available
 
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            }
         }
-    }
 
-</table>
+    </table>
 

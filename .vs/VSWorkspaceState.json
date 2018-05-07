@@ -1,17 +1,18 @@
 {
   "ExpandedNodes": [
     "",
-    "\\GameStoreDB1",
-    "\\GameStoreDB1\\Controllers",
-    "\\GameStoreDB1\\Views",
-    "\\GameStoreDB1\\Views\\Games",
-    "\\GameStoreDB1\\Views\\Guest",
-    "\\packages\\Respond.1.4.2",
-    "\\packages\\Respond.1.4.2\\content",
-    "\\packages\\Respond.1.4.2\\content\\Scripts",
-    "\\packages\\System.Diagnostics.DiagnosticSource.4.4.1",
-    "\\packages\\System.Diagnostics.DiagnosticSource.4.4.1\\lib"
+    "\\packages",
+    "\\packages\\Microsoft.AspNet.TelemetryCorrelation.1.0.0",
+    "\\packages\\Microsoft.AspNet.TelemetryCorrelation.1.0.0\\content",
+    "\\packages\\Microsoft.AspNet.TelemetryCorrelation.1.0.0\\content\\net45",
+    "\\packages\\Microsoft.AspNet.WebPages.3.2.3",
+    "\\packages\\Microsoft.AspNet.WebPages.3.2.3\\Content",
+    "\\packages\\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8",
+    "\\packages\\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\\content",
+    "\\packages\\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\\content\\net45",
+    "\\packages\\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\\content\\net46",
+    "\\packages\\Microsoft.Net.Compilers.2.6.0",
+    "\\packages\\Microsoft.Net.Compilers.2.6.0\\tools"
   ],
-  "SelectedNode": "\\GameStoreDB1\\Views\\Guest\\Games.cshtml",
   "PreviewInSolutionExplorer": false
 }

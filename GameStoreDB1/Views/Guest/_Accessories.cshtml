@@ -2,12 +2,12 @@
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Discription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AccType1.Name)
-        </th>
+        <td>
+            <h4>Item Discription</h4>
+        </td>
+        <td>
+            <h4>Type</h4>
+        </td>
 
         <th></th>
     </tr>
@@ -25,7 +25,7 @@
                 </td>
 
                 <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.AccId }) |
+                    <!-- @Html.ActionLink("Details", "Details", new { id = item.AccId }) |-->
                     <input name="@item.AccId" type="button" Value="Add to Cart" onclick="AddToCart(this)" />
                 </td>
             </tr>
@@ -41,7 +41,7 @@
                 </td>
 
                 <td>
-                    @Html.ActionLink("Details", "Details", new { id = item.AccId }) |
+                    <!-- @Html.ActionLink("Details", "Details", new { id = item.AccId }) |-->
                     None Available
                 </td>
             </tr>
